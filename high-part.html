@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bounce '26 - High Part Evaluation</title>
+    <style>
+        :root { --primary: #1a365d; --success-bg: #c6f6d5; --success-text: #22543d; --danger-bg: #fed7d7; --danger-text: #822727; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; background-color: #f7fafc; color: #2d3748; }
+        nav { background: var(--primary); padding: 1rem 2rem; display: flex; justify-content: space-between; color: white; position: sticky; top: 0; z-index: 1000; }
+        nav .links a { color: rgba(255,255,255,0.8); text-decoration: none; margin-left: 20px; font-weight: 600; }
+        nav .links a.active { color: white; border-bottom: 2px solid white; padding-bottom: 4px; }
+        .toolbar { background: white; padding: 10px 2rem; border-bottom: 1px solid #e2e8f0; display: flex; gap: 10px; position: sticky; top: 55px; z-index: 999; }
+        .btn { border: none; padding: 8px 16px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        .btn-like { background: var(--success-bg); color: var(--success-text); }
+        .btn-dislike { background: var(--danger-bg); color: var(--danger-text); }
+        .btn-export { background: var(--primary); color: white; margin-left: auto; }
+        .container { padding: 2rem; max-width: 1300px; margin: auto; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
+        th, td { padding: 12px 15px; border-bottom: 1px solid #edf2f7; text-align: left; }
+        th { background: #f8fafc; color: #718096; font-size: 0.75rem; text-transform: uppercase; }
+        .good { background-color: var(--success-bg); color: var(--success-text); border-bottom: 2px solid #48bb78; }
+        .bad { background-color: var(--danger-bg); color: var(--danger-text); border-bottom: 2px solid #f56565; text-decoration: line-through; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div style="font-weight:900">CAMP BOUNCE 26</div>
+    <div class="links">
+        <a href="low-part.html">LOW PART</a>
+        <a href="high-part.html" class="active">HIGH PART</a>
+        <a href="drop-lines.html">DROP LINES</a>
+    </div>
+</nav>
+
+<div class="toolbar">
+    <button class="btn btn-like" onclick="formatSelection('good')">👍 Like Phrase</button>
+    <button class="btn btn-dislike" onclick="formatSelection('bad')">👎 Dislike Phrase</button>
+    <button class="btn btn-export" onclick="exportJson()">Export High Part JSON</button>
+</div>
+
+<div class="container">
+    <h1>High Part (The Drop) Evaluation</h1>
+    <p>Highlight specific hooks or phrases to rate them.</p>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 40px;">#</th>
+                <th>Full Sequence (Hook / Mid / Drop Line)</th>
+            </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+    </table>
+</div>
+
+<script>
+    const highPartData = [
+        ["Camp Bounce boys", "Shout it loud and clear", "Waterslides and baseball games, the ruach’s always here"],
+        ["Join the fun", "Let’s hear everyone", "Singing loud and jumping high until the day is done"],
+        ["Double up", "Turn two into one", "Compound words and action packed, the summer has begun"],
+        ["Feel the beat", "Get up on your feet", "Camp Bounce is the only place where summer is so sweet"],
+        ["Hear the roar", "Give us even more", "Every trip and every game, we’re waiting for some more"],
+        ["One big team", "Living out the dream", "Catch the action, feel the vibe, we’re going to the extreme"],
+        ["Two in one", "Double all the fun", "We won’t stop the energy until the summer’s done"],
+        ["Yes we can", "Follow out the plan", "Best counselors and campers here in all the summer land"],
+        ["Watch us go", "Put on quite a show", "Growing bigger every day, just watch the ruach grow"],
+        ["Sing it loud", "Standing very proud", "Learning, growing, friends for life, the best boys in the crowd"],
+        ["Jump, jump, jump", "Get your heart to pump", "Every obstacle we find, we’re gonna take a jump"],
+        ["Hand in hand", "Best camp in the land", "Building something special that the whole world understands"],
+        ["Shout, shout, shout", "What it’s all about", "We’re the camp that everyone is talking all about"],
+        ["Hold on tight", "Shining very bright", "Middos and a happy face from morning until night"],
+        ["Give a cheer", "Best part of the year", "Happy smiles and giant laughs are all we ever hear"],
+        ["Catch the wave", "Bold and very brave", "Memories of summer time are everything we crave"],
+        ["Fly so high", "Reach up to the sky", "Watching all the happy days of summer flying by"],
+        ["Deep inside", "With a lot of pride", "Camp Bounce is the place where all the happy boys reside"],
+        ["Kick it off", "Take your hat right off", "If you think you’ve seen it all, you're gonna have to scoff"],
+        ["Make a noise", "Camp Bounce for the boys", "Nothing in the world can match our summer campy joys"],
+        ["Step by step", "With a lot of pep", "Building up our summer time and building up our rep"],
+        ["Turn around", "See what we have found", "Happiness is everywhere on this here camping ground"],
+        ["Light it up", "Fill your summer cup", "From the early morning till the time that we go up"],
+        ["Side by side", "Nowhere left to hide", "Take the ruach, take the joy and take it for a ride"],
+        ["All day long", "Singing out our song", "We are big and we are brave and we are very strong"],
+        ["Once again", "Tell a little friend", "This is where the summer fun is never gonna end"],
+        ["Look at us", "Don’t you make a fuss", "We are going on a trip inside a yellow bus"],
+        ["Back for more", "Open up the door", "This is what the Camp Bounce boys are always waiting for"],
+        ["Right away", "Start another day", "Come along and join the fun, we’re coming out to play"],
+        ["Best of all", "Standing very tall", "We will be the ones to catch you even if you fall"],
+        ["Everywhere", "Ruach in the air", "Camp Bounce boys are happy boys beyond all compare"],
+        ["Hit the ball", "Give it your all", "Running to the home plate, yeah we're having such a ball"],
+        ["Make it last", "Moving very fast", "Put the winter and the school into the distant past"],
+        ["Double time", "Making up a rhyme", "Every single hill of summer we are gonna climb"],
+        ["Top to floor", "Give us even more", "We are knocking loudly on the summer’s golden door"],
+        ["Hear us now", "We will show you how", "Every single Bounce boy has to take a giant bow"],
+        ["Heart and soul", "That is how we roll", "Reaching for the finish line and reaching for our goal"],
+        ["In the sun", "Best for everyone", "Don’t you know that Camp Bounce is the place for summer fun"],
+        ["Wild and free", "That is what we’ll be", "Bestest camp that anyone will ever get to see"],
+        ["High and low", "Watch the spirit grow", "We are on a summer trip and moving on the go"],
+        ["Work it out", "Give a giant shout", "This is what the compound word is really all about"],
+        ["Up and down", "Bestest camp in town", "We will never ever let you wear a summer frown"],
+        ["Keep it live", "Twenty-Six arrive", "This is how the Camp Bounce boys will always stay alive"],
+        ["Big and small", "We will have it all", "We are answering the summer’s happy giant call"],
+        ["Torah light", "Shining very bright", "We are learning every day and doing what is right"],
+        ["Middos too", "In all that we do", "We are being kind and helpful to the likes of you"],
+        ["Wait and see", "What it’s gonna be", "Bestest place in all the world for you and also me"],
+        ["On the go", "Let the spirit flow", "We are moving very fast and moving on the go"],
+        ["Take a chance", "Do a little dance", "We are looking at the summer with a happy glance"],
+        ["Real McCoy", "Every single boy", "Is a source of happiness and source of summer joy"],
+        ["Day and night", "Everything’s alright", "We are shining every day just like a beacon light"],
+        ["Over here", "Give a giant cheer", "Camp Bounce is the only place we want to be this year"],
+        ["Underneath", "Take a deep breath", "Underneath the summer sun we have a lot of fun"],
+        ["Round and round", "See what we have found", "Ruach is the only thing on this here camping ground"],
+        ["Start to finish", "Never will diminish", "Our excitement for the camp is never gonna finish"],
+        ["Piece of cake", "Look at what we make", "Every single memory is for the summer’s sake"],
+        ["Bigger now", "We will show you how", "We are taking all the fun and taking quite a bow"],
+        ["Stronger still", "With a lot of will", "We are going up the summer’s happy giant hill"],
+        ["Final count", "Watch the spirit mount", "Camp Bounce is the only source and only summer fount"],
+        ["End of song", "We have been so strong", "See you all in Twenty-Seven, come and join along"]
+    ];
+
+    function init() {
+        const body = document.getElementById('table-body');
+        highPartData.forEach((row, i) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${i+1}</td><td class="lyric-cell" data-id="${i+1}">${row.join(' / ')}</td>`;
+            body.appendChild(tr);
+        });
+    }
+
+    function formatSelection(className) {
+        const selection = window.getSelection();
+        if (!selection.rangeCount || selection.isCollapsed) return;
+        const range = selection.getRangeAt(0);
+        const span = document.createElement('span');
+        span.className = className;
+        range.surroundContents(span);
+        selection.removeAllRanges();
+    }
+
+    function exportJson() {
+        const results = [];
+        document.querySelectorAll('.lyric-cell').forEach(cell => {
+            const liked = Array.from(cell.querySelectorAll('.good')).map(el => el.innerText);
+            const disliked = Array.from(cell.querySelectorAll('.bad')).map(el => el.innerText);
+            if (liked.length || disliked.length) {
+                results.push({ id: cell.dataset.id, text: cell.innerText, liked, disliked });
+            }
+        });
+        const blob = new Blob([JSON.stringify(results, null, 2)], {type : 'application/json'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'bounce_high_part_eval.json';
+        a.click();
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
