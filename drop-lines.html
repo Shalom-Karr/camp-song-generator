@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bounce '26 - Drop Line Evaluation</title>
+    <style>
+        :root { --primary: #1a365d; --success-bg: #c6f6d5; --success-text: #22543d; --danger-bg: #fed7d7; --danger-text: #822727; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; background-color: #f7fafc; color: #2d3748; }
+        nav { background: var(--primary); padding: 1rem 2rem; display: flex; justify-content: space-between; color: white; position: sticky; top: 0; z-index: 1000; }
+        nav .links a { color: rgba(255,255,255,0.8); text-decoration: none; margin-left: 20px; font-weight: 600; }
+        nav .links a.active { color: white; border-bottom: 2px solid white; padding-bottom: 4px; }
+        .toolbar { background: white; padding: 10px 2rem; border-bottom: 1px solid #e2e8f0; display: flex; gap: 10px; position: sticky; top: 55px; z-index: 999; }
+        .btn { border: none; padding: 8px 16px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        .btn-like { background: var(--success-bg); color: var(--success-text); }
+        .btn-dislike { background: var(--danger-bg); color: var(--danger-text); }
+        .btn-export { background: var(--primary); color: white; margin-left: auto; }
+        .container { padding: 2rem; max-width: 1000px; margin: auto; }
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th, td { padding: 12px 15px; border-bottom: 1px solid #edf2f7; text-align: left; }
+        .good { background-color: var(--success-bg); color: var(--success-text); border-bottom: 2px solid #48bb78; }
+        .bad { background-color: var(--danger-bg); color: var(--danger-text); border-bottom: 2px solid #f56565; text-decoration: line-through; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div style="font-weight:900">CAMP BOUNCE 26</div>
+    <div class="links">
+        <a href="low-part.html">LOW PART</a>
+        <a href="high-part.html">HIGH PART</a>
+        <a href="drop-lines.html" class="active">DROP LINES</a>
+    </div>
+</nav>
+
+<div class="toolbar">
+    <button class="btn btn-like" onclick="formatSelection('good')">👍 Like Word</button>
+    <button class="btn btn-dislike" onclick="formatSelection('bad')">👎 Dislike Word</button>
+    <button class="btn btn-export" onclick="exportJson()">Export Drop Lines JSON</button>
+</div>
+
+<div class="container">
+    <h1>Drop Lines (Compound Lists) Evaluation</h1>
+    <p>Rate specific compound words by highlighting them.</p>
+    <table>
+        <thead>
+            <tr><th style="width: 40px;">#</th><th>11-Syllable Compound List Line</th></tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+    </table>
+</div>
+
+<script>
+    const dropLineData = [
+        "Backpack, campfire, sunshine, teamwork, having so much fun",
+        "Playground, home run, waterslide, we’ve only just begun",
+        "Moonlight, starlight, drumbeat, heartbeat, having so much fun",
+        "Field day, sideline, friendship, sunshine, having so much fun",
+        "Life jacket, surfboard, sailboat, having so much fun",
+        "Riverbank and grasshopper and summer butterfly",
+        "Heartbeat, soulmate, davening and rising to the sky",
+        "Airplane, suitcase, highway, roadway, traveling so far",
+        "Super-sized and double-fun, we know just who we are",
+        "Toothbrush, toothpaste, hairbrush, bathrobe, get ready for the day",
+        "Basketball and baseball, soccer, playing all the way",
+        "Birthday, cupcake, pancake, milkshake, tasting very sweet",
+        "Raindrop, rainbow, raincoat, rain boots, splashing on the street",
+        "Goldfish, starfish, jellyfish and swimming in the sea",
+        "Notebook, textbook, scrapbook, story, for the world to see",
+        "Firefly and dragonfly and ladybug so small",
+        "Snowball, snowflake, snowman, winter (doesn't fit the fall)",
+        "Keyboard, cupboard, chalkboard, whiteboard, learning in the room",
+        "Sunflower and bluebell, daisy, watch the flowers bloom",
+        "Mailman, fireman, policeman, helpers in the town",
+        "Sandbox, swing set, slide and see-saw, never have a frown",
+        "Afternoon and morning, nighttime, all the day is fun",
+        "Teapot, teacup, teaspoon, table, till the day is done",
+        "Weekend, weekday, everyday and having such a blast",
+        "Footprint, fingerprint and marks that always gonna last",
+        "Haircut, hairband, ponytail and looking very neat",
+        "Sidewalk, crosswalk, boardwalk, walking on the summer street",
+        "Backdoor, frontdoor, window, rooftop, camp is our home",
+        "Jellybean and gumdrop, lollipop, sweet as honeycomb",
+        "Postcard, postage, postbox, mailing letters to our home",
+        "Bedroom, bathroom, playroom, bunkroom, never feel alone",
+        "Flashlight, spotlight, nightlight, shining in the dark of night",
+        "Sandcastle and seashell, seashore, everything’s alright",
+        "Birdhouse, doghouse, farmhouse, greenhouse, nature is our friend",
+        "Waterfall and waterwheel and fun that’ll never end",
+        "Earthworm, earring, earthquake, earplug, keeping steady",
+        "Background, foreground, playground, campground, summer has begun",
+        "Handshake, handball, handstand, handmade, working with our hands",
+        "Bedtime, bedspread, bedpost, bedroom, throughout all the lands",
+        "Notebook, bookmark, bookshelf, bookstore, reading all the time",
+        "Mountain, hilltop, canyon, valley, every hill we’ll climb",
+        "Keyhole, keyboard, keychain, keypad, opening the door",
+        "Snowplow, snowstorm, snowdrift, snowfall (wait, we want some more)",
+        "Backspace, backrest, backfire, backflip, jumping in the air",
+        "Shipwreck, shipyard, shipmate, shipping ruach everywhere",
+        "Teammate, teamwork, team-play, team-lead, working as a one",
+        "Sunshine, sunblock, sun-rays, sunbathe, playing in the sun",
+        "Moonlight, moonbeam, moonrise, moonwalk, dancing in the night",
+        "Starfish, starlight, starbright, starburst, shining very bright",
+        "Heartbeat, heartthrob, heartland, heart-song, full of summer love",
+        "Fireman, fireplace, firefly, fire, sent from up above",
+        "Drumbeat, drumstick, drumroll, drummer, making lots of noise",
+        "Lifeguard, lifebelt, lifebuoy, life-raft, for the Camp Bounce boys",
+        "Fieldwork, field trip, field day, field-goal, playing on the grass",
+        "Waterside and waterline and water, feeling truly world class",
+        "Basketball and backboard, basket, shooting for the win",
+        "Baseball, base-hit, basement, base-run, let the games begin",
+        "Super-man and super-star and super-summer fun",
+        "Compound, complex, combination, now the song is done",
+        "Twenty-Six and Twenty-Seven, camp has just begun"
+    ];
+
+    function init() {
+        const body = document.getElementById('table-body');
+        dropLineData.forEach((line, i) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${i+1}</td><td class="lyric-cell" data-id="${i+1}">${line}</td>`;
+            body.appendChild(tr);
+        });
+    }
+
+    function formatSelection(className) {
+        const selection = window.getSelection();
+        if (!selection.rangeCount || selection.isCollapsed) return;
+        const range = selection.getRangeAt(0);
+        const span = document.createElement('span');
+        span.className = className;
+        range.surroundContents(span);
+        selection.removeAllRanges();
+    }
+
+    function exportJson() {
+        const results = [];
+        document.querySelectorAll('.lyric-cell').forEach(cell => {
+            const liked = Array.from(cell.querySelectorAll('.good')).map(el => el.innerText);
+            const disliked = Array.from(cell.querySelectorAll('.bad')).map(el => el.innerText);
+            if (liked.length || disliked.length) {
+                results.push({ id: cell.dataset.id, text: cell.innerText, liked, disliked });
+            }
+        });
+        const blob = new Blob([JSON.stringify(results, null, 2)], {type : 'application/json'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'bounce_drop_lines_eval.json';
+        a.click();
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
