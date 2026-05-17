@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bounce '26 - Low Part Evaluation</title>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --success-bg: #c6f6d5;
+            --success-text: #22543d;
+            --danger-bg: #fed7d7;
+            --danger-text: #822727;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            background-color: #f7fafc;
+            color: #2d3748;
+        }
+
+        /* Nav Bar */
+        nav {
+            background: var(--primary);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav .logo { font-weight: 900; letter-spacing: 1px; }
+        nav .links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        nav .links a.active { color: white; border-bottom: 2px solid white; padding-bottom: 4px; }
+
+        /* Toolbar */
+        .toolbar {
+            background: white;
+            padding: 10px 2rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            gap: 10px;
+            position: sticky;
+            top: 55px;
+            z-index: 999;
+        }
+
+        .btn {
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-like { background: var(--success-bg); color: var(--success-text); }
+        .btn-dislike { background: var(--danger-bg); color: var(--danger-text); }
+        .btn-export { background: var(--primary); color: white; margin-left: auto; }
+        .btn:hover { opacity: 0.8; transform: translateY(-1px); }
+
+        /* Content */
+        .container { padding: 2rem; max-width: 1300px; margin: auto; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-radius: 8px;
+        }
+
+        th, td { padding: 12px 15px; border-bottom: 1px solid #edf2f7; text-align: left; }
+        th { background: #f8fafc; color: #718096; font-size: 0.75rem; text-transform: uppercase; }
+
+        .lyric-cell { line-height: 1.6; font-size: 1rem; }
+        
+        /* Selection Highlight Styles */
+        .good { background-color: var(--success-bg); color: var(--success-text); border-bottom: 2px solid #48bb78; font-weight: 500; }
+        .bad { background-color: var(--danger-bg); color: var(--danger-text); border-bottom: 2px solid #f56565; text-decoration: line-through; }
+
+        .instruction { background: #ebf8ff; padding: 10px 20px; border-radius: 6px; margin-bottom: 20px; border-left: 4px solid #3182ce; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo">CAMP BOUNCE 26</div>
+    <div class="links">
+        <a href="low-part.html" class="active">LOW PART</a>
+        <a href="high-part.html">HIGH PART</a>
+        <a href="drop-lines.html">DROP LINES</a>
+    </div>
+</nav>
+
+<div class="toolbar">
+    <button class="btn btn-like" onclick="formatSelection('good')">👍 Like Phrase</button>
+    <button class="btn btn-dislike" onclick="formatSelection('bad')">👎 Dislike Phrase</button>
+    <button class="btn btn-export" onclick="exportJson()">Export Evaluation JSON</button>
+</div>
+
+<div class="container">
+    <h1>Low Part Evaluation (60 Options)</h1>
+    <div class="instruction">
+        <strong>Selection Tool:</strong> Highlight specific words with your mouse, then click "Like" or "Dislike". 
+        <em>Example: Highlight "Summer fun will never end" and click Like.</em>
+    </div>
+
+    <table id="lyric-table">
+        <thead>
+            <tr>
+                <th style="width: 40px;">#</th>
+                <th style="width: 100px;">Theme</th>
+                <th>Lyric Lines (1-6)</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            <!-- Data will be injected here -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    const lowPartData = [
+        { id: 1, theme: "Spirit", lines: ["Morning starts with davening", "Middos shine in everything", "Camp Bounce Twenty-Six", "Start the day with power", "Growing every hour", "Best place you can be"] },
+        { id: 2, theme: "Logic", lines: ["Take a word and add a friend", "Summer fun will never end", "Camp Bounce Twenty-Six", "Two words join together", "Stronger now than ever", "Shout it loud and clear"] },
+        { id: 3, theme: "Action", lines: ["Baseball games and home run hits", "Never ever wanna quit", "Camp Bounce Twenty-Six", "Running to the sideline", "Everything is just fine", "Feel the energy"] },
+        { id: 4, theme: "Trips", lines: ["Trip bags packed and ready now", "Bounce boys show the world just how", "Camp Bounce Twenty-Six", "Waterslides are calling", "No one here is falling", "Having so much fun"] },
+        { id: 5, theme: "Friendship", lines: ["Building bonds that always stay", "Happy faces every day", "Camp Bounce Twenty-Six", "Teammates stay together", "Friends through any weather", "One team, one heartbeat"] },
+        { id: 6, theme: "Mystery", lines: ["Every day we guess the theme", "Working as the Bounce boy team", "Camp Bounce Twenty-Six", "One plus one is better", "Like a brand new letter", "Catch the vibe today"] },
+        { id: 7, theme: "Growth", lines: ["Learning something new each day", "Torah leads us on our way", "Camp Bounce Twenty-Six", "Middos and the spirit", "Everyone can hear it", "Making memories"] },
+        { id: 8, theme: "Water", lines: ["Jump into the swimming pool", "Staying refreshed, staying cool", "Camp Bounce Twenty-Six", "Making such a big splash", "Summer in a lightning flash", "Having so much fun"] },
+        { id: 9, theme: "Night", lines: ["Campfire glowing through the night", "Moonlight moments shining bright", "Camp Bounce Twenty-Six", "Good times last forever", "Growing strong together", "One team, one heartbeat"] },
+        { id: 10, theme: "Energy", lines: ["Catch the action in the air", "Ruach spreading everywhere", "Camp Bounce Twenty-Six", "Every chant a loud cheer", "Bounce boys bring the fire here", "Hear the summer roar"] },
+        { id: 11, theme: "Baking", lines: ["Mixing dough and baking treats", "Making something good to eat", "Camp Bounce Twenty-Six", "Cupcakes in the oven", "Showing all the loving", "Taste the summer joy"] },
+        { id: 12, theme: "Sports", lines: ["Soccer on the grassy field", "Watch the power that we wield", "Camp Bounce Twenty-Six", "Kicking to the goalie", "Feeling holy-moly", "Give a giant cheer"] },
+        { id: 13, theme: "Crafts", lines: ["Glue and glitter everywhere", "Creative minds are in the air", "Camp Bounce Twenty-Six", "Making something special", "On a whole new level", "Art is coming live"] },
+        { id: 14, theme: "Arrival", lines: ["Bus is pulling in the gate", "Summer time is truly great", "Camp Bounce Twenty-Six", "Run to meet your brothers", "Better than the others", "Finally we’re here"] },
+        { id: 15, theme: "Morning", lines: ["Sun is rising in the sky", "Give a wave and say hello", "Camp Bounce Twenty-Six", "Open up the window", "Feel the summer wind blow", "Start another day"] },
+        { id: 16, theme: "Colors", lines: ["Red and blue and green and gold", "Stories that will soon be told", "Camp Bounce Twenty-Six", "Colors of the rainbow", "Watch the happy faces glow", "Beautiful to see"] },
+        { id: 17, theme: "Counselors", lines: ["Best of staff in all the land", "Lending us a helping hand", "Camp Bounce Twenty-Six", "Leading us with passion", "In a bouncy fashion", "We look up to you"] },
+        { id: 18, theme: "Rain", lines: ["Even if the rain comes down", "You will never see a frown", "Camp Bounce Twenty-Six", "Puddles in the driveway", "Doing it the high way", "Ruach never stops"] },
+        { id: 19, theme: "Lunch", lines: ["Pizza, pasta, fries and more", "Food that we are waiting for", "Camp Bounce Twenty-Six", "Eating in the lunchroom", "Watch the happy vibes bloom", "Fueling up for fun"] },
+        { id: 20, theme: "Basketball", lines: ["Dribbling across the floor", "Waiting for the winning score", "Camp Bounce Twenty-Six", "Shooting for the basket", "Go ahead and ask it", "Nothing’s gonna stop"] },
+        { id: 21, theme: "Unity", lines: ["We are more than just a name", "We are fire, we are flame", "Camp Bounce Twenty-Six", "Achdus in the hallway", "That’s the Camp Bounce all-way", "Standing as a one"] },
+        { id: 22, theme: "History", lines: ["Seven years of having fun", "Number one for everyone", "Camp Bounce Twenty-Six", "Legacy is building", "Happiness is filling", "Look how far we’ve come"] },
+        { id: 23, theme: "Friday", lines: ["Challah smells are in the air", "Shabbos peace is everywhere", "Camp Bounce Twenty-Six", "Getting ready slowly", "Feeling very holy", "Sing a song of praise"] },
+        { id: 24, theme: "Drumming", lines: ["Hear the beat upon the drum", "Come along and join the fun", "Camp Bounce Twenty-Six", "Rhythm in the spirit", "Everyone can hear it", "Making some big noise"] },
+        { id: 25, theme: "Walking", lines: ["Hiking on the mountain trail", "Our excitement will not fail", "Camp Bounce Twenty-Six", "Walking through the forest", "Singing in the chorus", "Nature looks so grand"] },
+        { id: 26, theme: "Zemiros", lines: ["Singing loud around the table", "Singing loud as we are able", "Camp Bounce Twenty-Six", "Harmonies are rising", "Truly quite surprising", "Peace is in the air"] },
+        { id: 27, theme: "Clean Up", lines: ["Picking up the bunk today", "Making sure it’s all okay", "Camp Bounce Twenty-Six", "Working all together", "Changing for the better", "Cleanest bunk around"] },
+        { id: 28, theme: "Smile", lines: ["Put a smile upon your face", "This is such a happy place", "Camp Bounce Twenty-Six", "Joy is all around us", "Glad that you have found us", "Grinning ear to ear"] },
+        { id: 29, theme: "Bus Ride", lines: ["Singing on the yellow bus", "No one is as loud as us", "Camp Bounce Twenty-Six", "Looking out the window", "Feel the summer wind blow", "Traveling the world"] },
+        { id: 30, theme: "Arcade", lines: ["Games and prizes at the park", "Having fun until it's dark", "Camp Bounce Twenty-Six", "Winning all the tokens", "Many words were spoken", "Catch the winning streak"] },
+        { id: 31, theme: "Hebrew", lines: ["Lashon kodesh words we use", "Better than the daily news", "Camp Bounce Twenty-Six", "Chaverim are playing", "Everyone is saying", "Shalom to a friend"] },
+        { id: 32, theme: "Hero", lines: ["Learning from our great Rebbeim", "Every day we want to see 'em", "Camp Bounce Twenty-Six", "Torah is our treasure", "Joy beyond all measure", "Growing like a star"] },
+        { id: 33, theme: "Splash", lines: ["Jumping from the diving board", "Look at us, oh thank you Hashem", "Camp Bounce Twenty-Six", "Cool off in the water", "Every son and daughter", "Wait, just for the boys"] },
+        { id: 34, theme: "Gym", lines: ["Running in the indoor gym", "Staying fit and staying trim", "Camp Bounce Twenty-Six", "Jumping on the mat now", "Know just where it’s at now", "Moving very fast"] },
+        { id: 35, theme: "Playground", lines: ["Swinging high into the sky", "Watch the summer days go by", "Camp Bounce Twenty-Six", "Slide into the weekend", "Make a brand new true friend", "Playing in the sun"] },
+        { id: 36, theme: "Davening 2", lines: ["Hodu and the Shema too", "So much here for us to do", "Camp Bounce Twenty-Six", "Davening with kavanah", "Feeling the nirvana", "Connecting to the One"] },
+        { id: 37, theme: "Middos", lines: ["Thinking of the other guy", "Give a cheer and give a try", "Camp Bounce Twenty-Six", "Helping one another", "Treat him like a brother", "Kindness is the key"] },
+        { id: 38, theme: "Ice Cream", lines: ["Cold and sweet and dripping down", "Best dessert in all the town", "Camp Bounce Twenty-Six", "Chocolate and vanilla", "Ruach is the villa?", "Best treat in the world"] },
+        { id: 39, theme: "Campfire 2", lines: ["Roasting marshmallows on sticks", "Getting all our summer kicks", "Camp Bounce Twenty-Six", "Firelight is dancing", "Summer is advancing", "Telling stories now"] },
+        { id: 40, theme: "Drumbeat", lines: ["Listen to the compound sound", "Footsteps on the summer ground", "Camp Bounce Twenty-Six", "Heartbeat of the summer", "Do not be a bummer", "One big family"] },
+        { id: 41, theme: "Sideline", lines: ["Cheering from the sideline now", "Take a breath and take a bow", "Camp Bounce Twenty-Six", "Support your fellow camper", "Nothing here can damper", "Cheer the winner on"] },
+        { id: 42, theme: "Backpack", lines: ["Zip it up and get it on", "Summer time is never gone", "Camp Bounce Twenty-Six", "Carry all your gear now", "Happiness is here now", "Ready for the day"] },
+        { id: 43, theme: "Field Day", lines: ["Teams are lining up to run", "Competition has begun", "Camp Bounce Twenty-Six", "Pulling on the rope now", "Giving us some hope now", "Who will win today?"] },
+        { id: 44, theme: "Waterslide", lines: ["Slipping sliding through the tube", "Looking like a bouncy rube?", "Camp Bounce Twenty-Six", "Landing in the pool now", "Everything is cool now", "Do it once again"] },
+        { id: 45, theme: "Sunshine", lines: ["Bright and yellow in the air", "Vitamin D is everywhere", "Camp Bounce Twenty-Six", "Sunshine on the field now", "Everything is healed now", "Brighten up your day"] },
+        { id: 46, theme: "Teamwork", lines: ["Working as a single unit", "Everybody's help is in it", "Camp Bounce Twenty-Six", "Lift each other higher", "We are on the fire", "Success as a one"] },
+        { id: 47, theme: "Lifeguard", lines: ["Whistle blowing at the pool", "Safety is the number rule", "Camp Bounce Twenty-Six", "Listen to the tower", "Every single hour", "Stay safe in the sun"] },
+        { id: 48, theme: "Starlight", lines: ["Stars are twinkling above", "Camp is full of so much love", "Camp Bounce Twenty-Six", "Looking at the galaxy", "Such a happy fallacy?", "Night time is so calm"] },
+        { id: 49, theme: "Camp Song", lines: ["Singing out the anthem now", "Everyone can show us how", "Camp Bounce Twenty-Six", "Voices join together", "Changing us forever", "Sing it out again"] },
+        { id: 50, theme: "Memories", lines: ["Taking photos of the fun", "Thinking of the things we've done", "Camp Bounce Twenty-Six", "Keep them in a scrapbook", "Take a little fast look", "Friends forevermore"] },
+        { id: 51, theme: "Birthday", lines: ["Cake and candles for a friend", "Party that will never end", "Camp Bounce Twenty-Six", "Celebrate another", "Happy birthday brother", "You are special here"] },
+        { id: 52, theme: "Water Play", lines: ["Sprinklers on the grassy lawn", "Running since the early dawn", "Camp Bounce Twenty-Six", "Soaking all our shirts now", "No one ever hurts now", "Splashing in the yard"] },
+        { id: 53, theme: "Home run", lines: ["Ball is flying in the sky", "Watch the outfielder try", "Camp Bounce Twenty-Six", "Rounding second base now", "Smile on your face now", "Scoring for the team"] },
+        { id: 54, theme: "Compound", lines: ["Two words acting like a pair", "See them almost everywhere", "Camp Bounce Twenty-Six", "Double all the meaning", "To the joy we're leaning", "One plus one is one"] },
+        { id: 55, theme: "Director", lines: ["Leading us with such a smile", "Walking every summer mile", "Camp Bounce Twenty-Six", "Making sure it’s perfect", "Giving us the best effect", "Thank you for it all"] },
+        { id: 56, theme: "Bunk Time", lines: ["Hanging out inside the room", "Watch the summer friendships bloom", "Camp Bounce Twenty-Six", "Telling funny jokes now", "To the campy folks now", "Best friends in the bunk"] },
+        { id: 57, theme: "Afternoon", lines: ["Sun is high and spirit’s higher", "We are like a summer fire", "Camp Bounce Twenty-Six", "Activities are waiting", "No more hesitating", "Let the games begin"] },
+        { id: 58, theme: "Growth 2", lines: ["Getting better every week", "It’s the summer that we seek", "Camp Bounce Twenty-Six", "Torah in our heart now", "We will never part now", "Better than before"] },
+        { id: 59, theme: "Finale", lines: ["Summer’s coming to a close", "Everyone around us knows", "Camp Bounce Twenty-Six", "We will be back soon now", "Underneath the moon now", "We’ll miss you so much"] },
+        { id: 60, theme: "Endless", lines: ["Camp Bounce is a way of life", "Cutting through the winter strife", "Camp Bounce Twenty-Six", "Keeps us going all year", "We have nothing to fear", "See you next year boys"] }
+    ];
+
+    function init() {
+        const body = document.getElementById('table-body');
+        lowPartData.forEach(item => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${item.id}</td>
+                <td><strong>${item.theme}</strong></td>
+                <td class="lyric-cell" data-id="${item.id}">${item.lines.join(' / ')}</td>
+            `;
+            body.appendChild(tr);
+        });
+    }
+
+    function formatSelection(className) {
+        const selection = window.getSelection();
+        if (!selection.rangeCount || selection.isCollapsed) return;
+
+        const range = selection.getRangeAt(0);
+        let container = range.commonAncestorContainer;
+        if (container.nodeType === 3) container = container.parentNode;
+
+        if (!container.closest('.lyric-cell')) return;
+
+        const span = document.createElement('span');
+        span.className = className;
+        range.surroundContents(span);
+        selection.removeAllRanges();
+    }
+
+    function exportJson() {
+        const results = [];
+        document.querySelectorAll('.lyric-cell').forEach(cell => {
+            const liked = Array.from(cell.querySelectorAll('.good')).map(el => el.innerText.trim());
+            const disliked = Array.from(cell.querySelectorAll('.bad')).map(el => el.innerText.trim());
+
+            if (liked.length > 0 || disliked.length > 0) {
+                results.push({
+                    id: cell.getAttribute('data-id'),
+                    full_line: cell.innerText.replace(/\s+/g, ' ').trim(),
+                    preferences: { liked_phrases: liked, disliked_phrases: disliked }
+                });
+            }
+        });
+
+        const blob = new Blob([JSON.stringify({low_part_eval: results}, null, 2)], {type : 'application/json'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'bounce_low_part_eval.json';
+        a.click();
+    }
+
+    window.onload = init;
+</script>
+
+</body>
+</html>
