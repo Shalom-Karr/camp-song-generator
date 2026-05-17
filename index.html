@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camp Bounce '26 - Lyric Lab Dashboard</title>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2c5282;
+            --accent: #4299e1;
+            --bg: #f7fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: #2d3748;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header Area */
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            margin-top: 10px;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Main Content */
+        .container {
+            flex: 1;
+            max-width: 1100px;
+            margin: -3rem auto 3rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Nav Cards */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            border-top: 6px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .card.low { border-top-color: #48bb78; }
+        .card.high { border-top-color: #ed8936; }
+        .card.drop { border-top-color: #9f7aea; }
+
+        .card h2 {
+            margin: 0 0 15px 0;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #718096;
+            margin-bottom: 25px;
+        }
+
+        .btn-link {
+            margin-top: auto;
+            background: var(--primary);
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: background 0.2s;
+        }
+
+        .card:hover .btn-link {
+            background: var(--accent);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.8rem;
+            color: #a0aec0;
+        }
+
+        /* Icon styling */
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>BOUNCE '26 LYRIC LAB</h1>
+        <p>Review, rate, and export phrases for the upcoming summer anthem.</p>
+    </header>
+
+    <div class="container">
+        <!-- Card 1: Low Part -->
+        <a href="low-part.html" class="card low">
+            <div class="icon">🎸</div>
+            <h2>Low Part</h2>
+            <p>Evaluate the main verses and build-ups. Features 60 different themes from Spirit to Growth.</p>
+            <div class="btn-link">Evaluate Verses</div>
+        </a>
+
+        <!-- Card 2: High Part -->
+        <a href="high-part.html" class="card high">
+            <div class="icon">🎤</div>
+            <h2>High Part</h2>
+            <p>Rate the "Big Drop" sequences including the 3-syllable hooks and high-energy vocals.</p>
+            <div class="btn-link">Evaluate Hooks</div>
+        </a>
+
+        <!-- Card 3: Drop Lines -->
+        <a href="drop-lines.html" class="card drop">
+            <div class="icon">⚡</div>
+            <h2>Drop Lines</h2>
+            <p>Fine-tune the compound word list lines. Select which specific words pack the most punch.</p>
+            <div class="btn-link">Evaluate Lists</div>
+        </a>
+    </div>
+
+    <footer>
+        &copy; 2025 Camp Bounce Twenty-Six | Lyric Evaluator v2.0
+    </footer>
+
+</body>
+</html>
