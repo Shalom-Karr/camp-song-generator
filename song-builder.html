@@ -10,295 +10,221 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
     :root{
-        --cream:#FFF6E9;
-        --paper:#FFFFFF;
-        --ink:#352A4E;
-        --ink-soft:#7A6E94;
-        --sun:#FFB23E;
-        --sun-deep:#FF9A2E;
-        --coral:#FF6B4A;
-        --coral-deep:#F0532F;
-        --grass:#2FA76B;
-        --grass-soft:#E4F6EC;
-        --sky:#3FA9F5;
-        --empty:#E9DCC6;
-        --shadow:0 14px 30px -12px rgba(120,70,30,.35);
-        --shadow-sm:0 6px 16px -8px rgba(120,70,30,.4);
+        --cream:#FFF6E9;--paper:#FFFFFF;--ink:#352A4E;--ink-soft:#7A6E94;
+        --sun:#FFB23E;--sun-deep:#FF9A2E;--coral:#FF6B4A;--coral-deep:#F0532F;
+        --grass:#2FA76B;--grass-soft:#E4F6EC;--sky:#3FA9F5;--violet:#7A5CC4;
+        --shadow:0 14px 30px -12px rgba(120,70,30,.35);--shadow-sm:0 6px 16px -8px rgba(120,70,30,.4);
         font-size:18px;
     }
     *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-    html,body{margin:0;padding:0;}
-    body{
-        font-family:'Nunito','Segoe UI',system-ui,sans-serif;
-        color:var(--ink);
-        background:var(--cream);
-        background-image:
-            radial-gradient(1200px 540px at 80% -10%, rgba(255,178,62,.40), transparent 60%),
-            radial-gradient(900px 500px at -10% 0%, rgba(255,107,74,.22), transparent 55%);
-        background-attachment:fixed;
-        line-height:1.5;
-        padding-bottom:120px;
-        -webkit-text-size-adjust:100%;
-    }
-    body::after{
-        content:"";position:fixed;inset:0;pointer-events:none;opacity:.05;z-index:0;
-        background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
-    }
-    .wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 16px;}
+    html,body{margin:0;padding:0;max-width:100%;overflow-x:hidden;}
+    body{font-family:'Nunito','Segoe UI',system-ui,sans-serif;color:var(--ink);background:var(--cream);
+        background-image:radial-gradient(900px 460px at 85% -10%,rgba(255,178,62,.40),transparent 60%),
+            radial-gradient(700px 420px at -10% 0%,rgba(255,107,74,.20),transparent 55%);
+        background-attachment:fixed;line-height:1.5;padding-bottom:128px;-webkit-text-size-adjust:100%;}
+    body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.05;z-index:0;
+        background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");}
+    .wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 14px;}
 
-    /* ---------- HEADER ---------- */
-    header{
-        margin:0 -16px 0;
-        background:linear-gradient(150deg,var(--coral) 0%,var(--sun) 100%);
-        color:#fff;
-        padding:30px 26px 34px;
-        border-radius:0 0 34px 34px;
-        box-shadow:var(--shadow);
-        text-align:center;
-        position:relative;
-        overflow:hidden;
-    }
-    header::before{
-        content:"";position:absolute;width:240px;height:240px;border-radius:50%;
-        background:rgba(255,255,255,.16);top:-130px;right:-70px;
-    }
-    .eyebrow{
-        font-weight:800;letter-spacing:3px;font-size:.72rem;text-transform:uppercase;
-        opacity:.9;margin-bottom:6px;
-    }
-    h1{
-        font-family:'Fredoka','Trebuchet MS',sans-serif;
-        font-weight:700;font-size:2.05rem;margin:0;line-height:1.1;
-        text-shadow:0 2px 0 rgba(0,0,0,.08);
-    }
-    .tagline{margin:10px auto 0;max-width:30ch;font-size:1rem;font-weight:600;opacity:.95;}
-
-    .progress-wrap{
-        display:flex;align-items:center;justify-content:center;gap:18px;
-        margin:22px auto 0;background:rgba(255,255,255,.18);
-        padding:14px 22px;border-radius:22px;width:fit-content;backdrop-filter:blur(2px);
-    }
-    .ring{position:relative;width:78px;height:78px;flex:none;}
+    header{margin:0 -14px;background:linear-gradient(150deg,var(--coral),var(--sun));color:#fff;
+        padding:24px 22px 26px;border-radius:0 0 30px 30px;box-shadow:var(--shadow);text-align:center;
+        position:relative;overflow:hidden;}
+    header::before{content:"";position:absolute;width:220px;height:220px;border-radius:50%;
+        background:rgba(255,255,255,.15);top:-120px;right:-60px;}
+    .eyebrow{font-weight:800;letter-spacing:3px;font-size:.68rem;text-transform:uppercase;opacity:.9;}
+    h1{font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.85rem;margin:6px 0 0;line-height:1.1;}
+    .tagline{margin:8px auto 0;max-width:32ch;font-size:.95rem;font-weight:600;opacity:.95;}
+    .progress-wrap{display:flex;align-items:center;justify-content:center;gap:14px;margin:18px auto 0;
+        background:rgba(255,255,255,.18);padding:12px 18px;border-radius:20px;width:fit-content;max-width:100%;}
+    .ring{position:relative;width:64px;height:64px;flex:none;}
     .ring svg{transform:rotate(-90deg);}
-    .ring track{fill:none;}
-    .ring .bg{stroke:rgba(255,255,255,.30);}
-    .ring .fg{stroke:#fff;stroke-linecap:round;transition:stroke-dashoffset .6s ease;}
-    .ring .pct{
-        position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-        font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.05rem;
-    }
-    .progress-text{text-align:left;}
-    .progress-text b{font-size:1.15rem;font-family:'Fredoka',sans-serif;display:block;}
-    .progress-text span{font-size:.85rem;opacity:.92;font-weight:600;}
+    .ring .bg{stroke:rgba(255,255,255,.30);fill:none;}
+    .ring .fg{stroke:#fff;stroke-linecap:round;fill:none;transition:stroke-dashoffset .6s ease;}
+    .ring .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+        font-family:'Fredoka',sans-serif;font-weight:700;font-size:.92rem;}
+    .progress-text{text-align:left;min-width:0;}
+    .progress-text b{font-size:1.05rem;font-family:'Fredoka',sans-serif;display:block;}
+    .progress-text span{font-size:.8rem;opacity:.92;font-weight:600;}
 
-    /* ---------- GUIDE ---------- */
-    .guide{
-        background:var(--paper);border-radius:24px;box-shadow:var(--shadow-sm);
-        margin:22px 0 0;padding:22px 22px 18px;border:2px solid #FFE9C9;
-    }
-    .guide h2{font-family:'Fredoka',sans-serif;margin:0 0 14px;font-size:1.25rem;color:var(--coral-deep);}
-    .steps{display:grid;gap:14px;}
-    .step{display:flex;gap:14px;align-items:flex-start;}
-    .step .badge{
-        flex:none;width:42px;height:42px;border-radius:50%;
-        background:var(--grass-soft);color:var(--grass);
-        display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:800;
-    }
-    .step p{margin:0;font-weight:600;}
-    .step p small{display:block;color:var(--ink-soft);font-weight:600;font-size:.85rem;}
-    .guide .ok{
-        margin:16px 0 0;width:100%;border:none;background:var(--grass);color:#fff;
-        font-family:'Fredoka',sans-serif;font-size:1.05rem;font-weight:600;
-        padding:14px;border-radius:16px;cursor:pointer;
-    }
+    .guide{background:var(--paper);border-radius:22px;box-shadow:var(--shadow-sm);margin:18px 0 0;
+        padding:20px 18px 16px;border:2px solid #FFE9C9;}
+    .guide h2{font-family:'Fredoka',sans-serif;margin:0 0 12px;font-size:1.15rem;color:var(--coral-deep);}
+    .steps{display:grid;gap:12px;}
+    .step{display:flex;gap:12px;align-items:flex-start;}
+    .step .badge{flex:none;width:38px;height:38px;border-radius:50%;background:var(--grass-soft);
+        color:var(--grass);display:flex;align-items:center;justify-content:center;font-size:1.15rem;font-weight:800;}
+    .step p{margin:0;font-weight:600;font-size:.95rem;}
+    .step p small{display:block;color:var(--ink-soft);font-weight:600;font-size:.82rem;}
+    .guide .ok{margin:14px 0 0;width:100%;border:none;background:var(--grass);color:#fff;
+        font-family:'Fredoka',sans-serif;font-size:1rem;font-weight:600;padding:13px;border-radius:14px;cursor:pointer;}
 
-    /* ---------- VERSES ---------- */
-    .section-title{
-        font-family:'Fredoka',sans-serif;font-size:1.5rem;margin:30px 4px 4px;
-    }
-    .section-sub{margin:0 4px 18px;color:var(--ink-soft);font-weight:600;}
+    .section-title{font-family:'Fredoka',sans-serif;font-size:1.3rem;margin:26px 2px 2px;}
+    .section-sub{margin:0 2px 16px;color:var(--ink-soft);font-weight:600;font-size:.92rem;}
 
-    .verse{
-        background:var(--paper);border-radius:26px;box-shadow:var(--shadow-sm);
-        margin-bottom:20px;overflow:hidden;border:2px solid transparent;transition:.3s;
-    }
-    .verse.done{border-color:var(--grass);}
-    .verse-head{
-        display:flex;align-items:center;gap:12px;padding:18px 20px 14px;
-        background:linear-gradient(120deg,#FFF1DA,#FFF8EE);
-    }
-    .verse.done .verse-head{background:var(--grass-soft);}
-    .verse-name{
-        flex:1;font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.25rem;
-        color:var(--ink);border:none;background:transparent;width:100%;padding:6px 8px;border-radius:10px;
-        min-width:0;
-    }
-    .verse-name:focus{outline:none;background:#fff;box-shadow:inset 0 0 0 2px var(--sun);}
-    .verse-tick{
-        flex:none;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;
-        justify-content:center;font-size:1.2rem;font-weight:900;background:#EFE7DA;color:#C4B79E;
-    }
-    .verse.done .verse-tick{background:var(--grass);color:#fff;}
+    .empty-state{background:var(--paper);border:2px dashed #E3D4B6;border-radius:22px;padding:34px 22px;
+        text-align:center;box-shadow:var(--shadow-sm);}
+    .empty-state .big{font-size:2.4rem;}
+    .empty-state h3{font-family:'Fredoka',sans-serif;font-size:1.25rem;margin:10px 0 4px;}
+    .empty-state p{color:var(--ink-soft);font-weight:600;margin:0 0 18px;}
 
-    .line{
-        display:flex;align-items:center;gap:14px;width:100%;text-align:left;
-        background:none;border:none;border-top:1px solid #F4ECDD;
-        padding:18px 20px;cursor:pointer;font:inherit;color:inherit;min-height:68px;
-        transition:background .15s;
-    }
+    .block{background:var(--paper);border-radius:22px;box-shadow:var(--shadow-sm);margin-bottom:16px;
+        overflow:hidden;border:2px solid transparent;transition:.3s;}
+    .block.done{border-color:var(--grass);}
+    .block.t-DROP{border-top:5px solid var(--violet);}
+    .block.t-OUTRO{border-top:5px solid var(--sky);}
+    .block-head{display:flex;align-items:center;gap:10px;padding:15px 16px 12px;
+        background:linear-gradient(120deg,#FFF1DA,#FFF8EE);}
+    .block.t-DROP .block-head{background:linear-gradient(120deg,#EFE7FA,#F8F5FF);}
+    .block.t-OUTRO .block-head{background:linear-gradient(120deg,#E4F2FD,#F4FAFF);}
+    .block.done .block-head{background:var(--grass-soft);}
+    .block-kind{flex:none;font-size:.62rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
+        padding:5px 9px;border-radius:999px;background:#fff;color:var(--coral-deep);}
+    .block.t-DROP .block-kind{color:var(--violet);}
+    .block.t-OUTRO .block-kind{color:var(--sky);}
+    .block-name{flex:1;font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.05rem;color:var(--ink);
+        border:none;background:transparent;width:100%;padding:5px 6px;border-radius:8px;min-width:0;}
+    .block-name:focus{outline:none;background:#fff;box-shadow:inset 0 0 0 2px var(--sun);}
+    .block-del{flex:none;width:30px;height:30px;border-radius:50%;border:none;background:#F3E7E5;
+        color:var(--coral-deep);font-weight:900;cursor:pointer;font-size:.95rem;}
+    .block-tick{flex:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;
+        justify-content:center;font-size:1rem;font-weight:900;background:#EFE7DA;color:#C4B79E;}
+    .block.done .block-tick{background:var(--grass);color:#fff;}
+
+    .line{display:grid;grid-template-columns:1fr;gap:3px;width:100%;text-align:left;background:none;
+        border:none;border-top:1px solid #F4ECDD;padding:13px 16px;cursor:pointer;font:inherit;
+        color:inherit;transition:background .15s;}
     .line:hover{background:#FFFaf0;}
     .line:active{background:#FFF1DA;}
-    .line-num{
-        flex:none;width:34px;height:34px;border-radius:11px;background:#FBEBD0;color:var(--sun-deep);
-        display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.95rem;
-    }
-    .line.fixed{cursor:default;color:var(--ink-soft);}
+    .cue{font-size:.72rem;font-weight:800;letter-spacing:.4px;color:#B6A98C;text-transform:uppercase;
+        display:flex;align-items:center;gap:6px;}
+    .cue::before{content:"♪";color:var(--sun-deep);font-size:.85rem;}
+    .line-main{display:flex;align-items:center;gap:12px;}
+    .line-num{flex:none;width:30px;height:30px;border-radius:9px;background:#FBEBD0;color:var(--sun-deep);
+        display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;}
+    .line.fixed{cursor:default;}
     .line.fixed:hover{background:none;}
     .line.fixed .line-num{background:#ECE6F4;color:#9A8FB6;}
-    .line-text{flex:1;font-size:1.18rem;font-weight:700;min-width:0;word-break:break-word;}
-    .line.empty .line-text{color:#BBA98A;font-weight:700;font-style:italic;}
-    .line-cta{
-        flex:none;font-weight:800;font-size:.82rem;color:var(--coral);
-        background:#FFEFE6;padding:7px 12px;border-radius:999px;white-space:nowrap;
-    }
+    .line-text{flex:1;font-size:1.08rem;font-weight:700;min-width:0;word-break:break-word;}
+    .line.empty .line-text{color:#BBA98A;font-style:italic;}
+    .line-cta{flex:none;font-weight:800;font-size:.74rem;color:var(--coral);background:#FFEFE6;
+        padding:6px 10px;border-radius:999px;white-space:nowrap;}
     .line.filled .line-cta{color:var(--ink-soft);background:#F2EEE4;}
-    .lock{font-size:1rem;}
 
-    .add-verse{
-        width:100%;border:2px dashed #E3D4B6;background:rgba(255,255,255,.5);
-        color:var(--ink-soft);font:inherit;font-weight:800;font-family:'Fredoka',sans-serif;
-        font-size:1.05rem;padding:20px;border-radius:22px;cursor:pointer;margin-bottom:10px;
-    }
-    .add-verse:active{background:#fff;}
+    .add-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+    .add-btn{flex:1;min-width:120px;border:2px dashed #E3D4B6;background:rgba(255,255,255,.6);
+        color:var(--ink);font:inherit;font-weight:800;font-family:'Fredoka',sans-serif;
+        font-size:.95rem;padding:15px 12px;border-radius:18px;cursor:pointer;}
+    .add-btn.solid{border-style:solid;background:linear-gradient(140deg,var(--coral),var(--sun-deep));
+        color:#fff;box-shadow:var(--shadow-sm);}
+    .add-btn:active{transform:scale(.99);}
+    .footer-actions{text-align:center;padding:22px 0 6px;}
+    .link-btn{background:none;border:none;color:var(--ink-soft);font:inherit;font-weight:700;
+        text-decoration:underline;cursor:pointer;font-size:.92rem;padding:8px;}
 
-    .footer-actions{text-align:center;padding:26px 0 10px;}
-    .link-btn{
-        background:none;border:none;color:var(--ink-soft);font:inherit;font-weight:700;
-        text-decoration:underline;cursor:pointer;font-size:.95rem;padding:8px;
-    }
-
-    /* ---------- STICKY BAR ---------- */
-    .dock{
-        position:fixed;left:0;right:0;bottom:0;z-index:50;
-        padding:14px 16px calc(14px + env(safe-area-inset-bottom));
-        display:flex;gap:12px;justify-content:center;
-        background:linear-gradient(0deg,var(--cream) 70%,rgba(255,246,233,0));
-    }
-    .dock button{
-        font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.05rem;
-        border:none;border-radius:18px;padding:17px 22px;cursor:pointer;
-        box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:8px;justify-content:center;
-    }
-    .dock .primary{background:linear-gradient(140deg,var(--coral),var(--sun-deep));color:#fff;flex:1;max-width:340px;}
+    .dock{position:fixed;left:0;right:0;bottom:0;z-index:50;
+        padding:12px 14px calc(12px + env(safe-area-inset-bottom));display:flex;gap:10px;
+        justify-content:center;background:linear-gradient(0deg,var(--cream) 72%,rgba(255,246,233,0));}
+    .dock button{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1rem;border:none;
+        border-radius:16px;padding:16px 18px;cursor:pointer;box-shadow:var(--shadow-sm);
+        display:flex;align-items:center;gap:7px;justify-content:center;}
+    .dock .primary{background:linear-gradient(140deg,var(--coral),var(--sun-deep));color:#fff;flex:1;max-width:330px;}
     .dock .primary.celebrate{animation:bob 1s ease-in-out infinite;}
     .dock .secondary{background:var(--paper);color:var(--ink);}
-    @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 
-    /* ---------- SHEET / MODAL ---------- */
-    .backdrop{
-        position:fixed;inset:0;background:rgba(45,30,20,.55);z-index:100;
-        display:none;align-items:flex-end;justify-content:center;
-    }
+    .backdrop{position:fixed;inset:0;background:rgba(45,30,20,.55);z-index:100;display:none;
+        align-items:flex-end;justify-content:center;}
     .backdrop.open{display:flex;}
-    .sheet{
-        background:var(--cream);width:100%;max-width:620px;max-height:92vh;
-        border-radius:28px 28px 0 0;display:flex;flex-direction:column;
-        animation:slideup .28s cubic-bezier(.2,.8,.2,1);
-    }
+    .sheet,.book{background:var(--cream);width:100%;max-width:620px;max-height:94vh;
+        border-radius:26px 26px 0 0;display:flex;flex-direction:column;
+        animation:slideup .26s cubic-bezier(.2,.8,.2,1);}
     @keyframes slideup{from{transform:translateY(100%)}to{transform:translateY(0)}}
-    .sheet-head{
-        padding:20px 22px 8px;display:flex;align-items:flex-start;gap:12px;
-    }
-    .sheet-head h2{font-family:'Fredoka',sans-serif;font-size:1.45rem;margin:0;flex:1;}
-    .sheet-x{
-        flex:none;width:42px;height:42px;border-radius:50%;border:none;background:#EFE3CE;
-        font-size:1.2rem;font-weight:900;color:var(--ink);cursor:pointer;
-    }
-    .sheet-hint{
-        margin:0 22px 6px;background:#FFF;border:2px solid #FFE3BD;border-radius:16px;
-        padding:14px 16px;font-weight:700;color:var(--ink);
-    }
+    .sheet-head{padding:18px 20px 6px;display:flex;align-items:flex-start;gap:10px;}
+    .sheet-head h2{font-family:'Fredoka',sans-serif;font-size:1.25rem;margin:0;flex:1;}
+    .sheet-x{flex:none;width:40px;height:40px;border-radius:50%;border:none;background:#EFE3CE;
+        font-size:1.1rem;font-weight:900;color:var(--ink);cursor:pointer;}
+    .sheet-hint{margin:0 20px 4px;background:#FFF;border:2px solid #FFE3BD;border-radius:14px;
+        padding:12px 14px;font-weight:700;font-size:.95rem;}
+    .sheet-hint .cuebox{display:block;margin-bottom:6px;font-size:.72rem;letter-spacing:.4px;
+        text-transform:uppercase;color:#B6A98C;}
     .sheet-hint .rhyme{display:block;margin-top:6px;color:var(--coral-deep);font-weight:800;}
     .sheet-hint .rhyme em{font-style:normal;background:#FFEEDD;padding:1px 7px;border-radius:6px;}
-    .sheet-body{overflow:auto;padding:10px 22px 4px;-webkit-overflow-scrolling:touch;}
-    .opt-group{
-        font-family:'Fredoka',sans-serif;font-weight:600;font-size:1rem;color:var(--ink-soft);
-        margin:18px 2px 8px;display:flex;align-items:center;gap:8px;
-    }
-    .opt-group:first-child{margin-top:6px;}
-    .opt{
-        width:100%;text-align:left;border:2px solid #EFE2CB;background:#fff;color:var(--ink);
-        font:inherit;font-weight:700;font-size:1.12rem;padding:16px 16px;border-radius:16px;
-        margin-bottom:10px;cursor:pointer;display:flex;align-items:center;gap:10px;
-        min-height:60px;transition:.12s;
-    }
+    .toggle{display:flex;gap:6px;margin:8px 20px 0;background:#EFE3CE;padding:5px;border-radius:12px;}
+    .toggle button{flex:1;border:none;background:none;font:inherit;font-weight:800;font-size:.88rem;
+        padding:9px;border-radius:9px;cursor:pointer;color:var(--ink-soft);}
+    .toggle button.on{background:#fff;color:var(--ink);box-shadow:var(--shadow-sm);}
+    .sheet-body{overflow:auto;padding:8px 20px 4px;-webkit-overflow-scrolling:touch;}
+    .opt-group{font-family:'Fredoka',sans-serif;font-weight:600;font-size:.95rem;color:var(--ink-soft);
+        margin:16px 2px 7px;}
+    .opt-group:first-child{margin-top:4px;}
+    .opt{width:100%;text-align:left;border:2px solid #EFE2CB;background:#fff;color:var(--ink);
+        font:inherit;font-weight:700;font-size:1.04rem;padding:14px;border-radius:14px;margin-bottom:9px;
+        cursor:pointer;display:flex;align-items:center;gap:10px;min-height:54px;}
     .opt:active{transform:scale(.99);}
     .opt.current{border-color:var(--grass);background:var(--grass-soft);}
-    .opt .tick{
-        flex:none;width:26px;height:26px;border-radius:50%;background:#EFE7DA;color:#fff;
-        display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.85rem;
-    }
+    .opt .tick{flex:none;width:24px;height:24px;border-radius:50%;background:#EFE7DA;color:#fff;
+        display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.8rem;}
     .opt.current .tick{background:var(--grass);}
-    .opt .rhymes-tag{
-        margin-left:auto;flex:none;font-size:.72rem;font-weight:800;color:var(--coral-deep);
-        background:#FFEAdd;padding:4px 9px;border-radius:999px;
-    }
-    .sheet-foot{padding:14px 22px calc(20px + env(safe-area-inset-bottom));}
-    .sheet-foot button{
-        width:100%;border:2px solid #E6D8BE;background:#fff;color:var(--ink-soft);
-        font:inherit;font-weight:800;padding:15px;border-radius:16px;cursor:pointer;font-size:1rem;
-    }
+    .opt .rt{margin-left:auto;flex:none;font-size:.68rem;font-weight:800;color:var(--coral-deep);
+        background:#FFEAdd;padding:3px 8px;border-radius:999px;}
+    .empty-note{color:var(--ink-soft);font-weight:700;text-align:center;padding:24px 10px;font-size:.95rem;}
+    .sheet-foot{padding:12px 20px calc(18px + env(safe-area-inset-bottom));}
+    .sheet-foot button{width:100%;border:2px solid #E6D8BE;background:#fff;color:var(--ink-soft);
+        font:inherit;font-weight:800;padding:14px;border-radius:14px;cursor:pointer;}
 
-    /* ---------- SONGBOOK ---------- */
-    .book{
-        background:var(--cream);width:100%;max-width:620px;max-height:94vh;
-        border-radius:28px 28px 0 0;display:flex;flex-direction:column;
-        animation:slideup .28s cubic-bezier(.2,.8,.2,1);
-    }
-    .book-scroll{overflow:auto;padding:6px 26px 10px;}
-    .book h2{font-family:'Fredoka',sans-serif;text-align:center;font-size:1.7rem;margin:18px 0 4px;}
-    .book .sub{text-align:center;color:var(--ink-soft);font-weight:700;margin:0 0 18px;}
-    .bk-verse{background:#fff;border-radius:20px;padding:18px 22px;margin-bottom:16px;box-shadow:var(--shadow-sm);}
-    .bk-verse h3{font-family:'Fredoka',sans-serif;color:var(--coral-deep);margin:0 0 10px;font-size:1.15rem;}
-    .bk-line{font-size:1.18rem;font-weight:700;padding:3px 0;}
-    .bk-line.blank{color:#C9B894;font-style:italic;font-weight:600;}
-    .book-foot{padding:16px 22px calc(22px + env(safe-area-inset-bottom));display:grid;gap:10px;}
-    .book-foot .row{display:flex;gap:10px;}
-    .book-foot button{
-        flex:1;font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.05rem;border:none;
-        border-radius:16px;padding:16px;cursor:pointer;display:flex;align-items:center;
-        justify-content:center;gap:8px;
-    }
+    .lib-card{width:100%;text-align:left;background:#fff;border:2px solid #EFE2CB;border-radius:16px;
+        padding:14px 16px;margin-bottom:11px;cursor:pointer;}
+    .lib-card:active{transform:scale(.995);}
+    .lib-card h4{font-family:'Fredoka',sans-serif;margin:0 0 8px;font-size:1.05rem;color:var(--coral-deep);
+        display:flex;align-items:center;gap:8px;}
+    .lib-card h4 .pill{font-size:.6rem;font-weight:800;letter-spacing:1px;background:#FFEFD9;
+        color:var(--sun-deep);padding:3px 8px;border-radius:999px;text-transform:uppercase;}
+    .lib-card .pl{font-size:.95rem;font-weight:700;color:var(--ink);padding:1px 0;}
+    .lib-card .pl.b{color:#C9B894;font-style:italic;font-weight:600;}
+    .lib-card .add{margin-top:10px;font-weight:800;color:var(--grass);font-size:.9rem;}
+
+    .book-scroll{overflow:auto;padding:4px 20px 8px;}
+    .book h2{font-family:'Fredoka',sans-serif;text-align:center;font-size:1.5rem;margin:16px 0 2px;}
+    .book .sub{text-align:center;color:var(--ink-soft);font-weight:700;margin:0 0 14px;font-size:.9rem;}
+    .bk-block{background:#fff;border-radius:16px;padding:14px 16px;margin-bottom:12px;box-shadow:var(--shadow-sm);}
+    .bk-block h3{font-family:'Fredoka',sans-serif;color:var(--coral-deep);margin:0 0 8px;font-size:1.02rem;}
+    .bk-row{display:grid;grid-template-columns:42% 58%;gap:8px;padding:3px 0;border-bottom:1px dashed #F0E8D8;}
+    .bk-row:last-child{border-bottom:none;}
+    .bk-cue{font-size:.74rem;color:#A89B80;font-weight:700;align-self:center;}
+    .bk-lyr{font-size:1.04rem;font-weight:700;}
+    .bk-lyr.blank{color:#C9B894;font-style:italic;font-weight:600;}
+    .book-foot{padding:12px 20px calc(18px + env(safe-area-inset-bottom));display:grid;gap:9px;}
+    .book-foot .row{display:flex;gap:9px;}
+    .book-foot button{flex:1;font-family:'Fredoka',sans-serif;font-weight:600;font-size:1rem;border:none;
+        border-radius:14px;padding:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;}
     .b-share{background:linear-gradient(140deg,var(--coral),var(--sun-deep));color:#fff;}
     .b-soft{background:#fff;color:var(--ink);box-shadow:var(--shadow-sm);}
     .b-close{background:none;color:var(--ink-soft);text-decoration:underline;box-shadow:none;}
 
-    /* ---------- TOAST + CONFETTI ---------- */
-    .toast{
-        position:fixed;left:50%;bottom:104px;transform:translateX(-50%) translateY(20px);
-        background:var(--ink);color:#fff;font-weight:800;padding:12px 22px;border-radius:999px;
-        z-index:200;opacity:0;transition:.3s;pointer-events:none;font-size:.95rem;
-    }
+    .toast{position:fixed;left:50%;bottom:108px;transform:translateX(-50%) translateY(20px);
+        background:var(--ink);color:#fff;font-weight:800;padding:11px 20px;border-radius:999px;z-index:200;
+        opacity:0;transition:.3s;pointer-events:none;font-size:.92rem;max-width:90vw;text-align:center;}
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
     .confetti{position:fixed;inset:0;pointer-events:none;z-index:300;overflow:hidden;}
-    .confetti i{
-        position:absolute;top:-20px;width:11px;height:14px;border-radius:2px;
-        animation:fall linear forwards;
-    }
-    @keyframes fall{
-        to{transform:translateY(110vh) rotate(720deg);}
-    }
-    @media (prefers-reduced-motion:reduce){
-        *{animation-duration:.001s!important;transition-duration:.05s!important;}
-    }
-    @media (min-width:680px){
+    .confetti i{position:absolute;top:-20px;width:11px;height:14px;border-radius:2px;animation:fall linear forwards;}
+    @keyframes fall{to{transform:translateY(110vh) rotate(720deg);}}
+    @media (prefers-reduced-motion:reduce){*{animation-duration:.001s!important;transition-duration:.05s!important;}}
+    @media (min-width:620px){
         :root{font-size:19px;}
         .backdrop{align-items:center;}
-        .sheet,.book{border-radius:28px;}
+        .sheet,.book{border-radius:26px;}
+        .line{grid-template-columns:38% 1fr;align-items:center;gap:14px;}
+    }
+    @media (max-width:380px){
+        :root{font-size:17px;}
+        .wrap{padding:0 10px;}
+        .line-cta{display:none;}
+        .line{padding:12px 13px;}
+        h1{font-size:1.6rem;}
     }
     @media print{
         body{background:#fff;padding:0;}
-        .wrap>*:not(#bookModal),.dock,.toast{display:none!important;}
+        .wrap>*:not(#bookModal),.dock,.toast,.confetti{display:none!important;}
         #bookModal{position:static;display:block!important;background:#fff;}
         #bookModal .book{max-height:none;box-shadow:none;}
         .book-foot,.sheet-x{display:none!important;}
@@ -307,88 +233,88 @@
 </head>
 <body>
 <div class="wrap">
-
     <header>
-        <div class="eyebrow">Camp Bounce Twenty-Six</div>
-        <h1>Make Our Camp Song 🎵</h1>
-        <p class="tagline">Tap each line and pick the words you love. We keep the rhythm right for you.</p>
+        <div class="eyebrow">Camp Bounce Twenty-Six · Bum Bum Tune</div>
+        <h1>Build the Whole Song 🎵</h1>
+        <p class="tagline">Add a verse, then tap any line to pick the words you like.</p>
         <div class="progress-wrap">
-            <div class="ring">
-                <svg width="78" height="78" viewBox="0 0 78 78">
-                    <circle class="bg" cx="39" cy="39" r="32" stroke-width="9"></circle>
-                    <circle class="fg" id="ringFg" cx="39" cy="39" r="32" stroke-width="9"
-                        stroke-dasharray="201" stroke-dashoffset="201"></circle>
-                </svg>
-                <div class="pct" id="ringPct">0%</div>
-            </div>
-            <div class="progress-text">
-                <b id="progNum">0 of 0</b>
-                <span id="progMsg">lines filled in</span>
-            </div>
+            <div class="ring"><svg width="64" height="64" viewBox="0 0 64 64">
+                <circle class="bg" cx="32" cy="32" r="26" stroke-width="8"></circle>
+                <circle class="fg" id="ringFg" cx="32" cy="32" r="26" stroke-width="8"
+                    stroke-dasharray="163" stroke-dashoffset="163"></circle></svg>
+                <div class="pct" id="ringPct">0%</div></div>
+            <div class="progress-text"><b id="progNum">Empty</b><span id="progMsg">add a verse to start</span></div>
         </div>
     </header>
 
     <div class="guide" id="guide">
-        <h2>How to build the song 💛</h2>
+        <h2>How it works 💛</h2>
         <div class="steps">
-            <div class="step"><div class="badge">1</div>
-                <p>Tap any line that says “Tap to pick a line”
-                <small>The lines are short on purpose — that’s the song’s beat.</small></p></div>
-            <div class="step"><div class="badge">2</div>
-                <p>Choose a line you like from the list
-                <small>“Lines you loved” are your favorites. “Fresh ideas” are extra choices.</small></p></div>
-            <div class="step"><div class="badge">3</div>
-                <p>When every line is filled, tap “See my song” and send it
-                <small>It saves by itself — you can close this and come back any time.</small></p></div>
+            <div class="step"><div class="badge">1</div><p>Tap <b>＋ Add a verse</b> and pick a ready-made verse
+                <small>They’re built from the lines you already liked — they rhyme.</small></p></div>
+            <div class="step"><div class="badge">2</div><p>Tap any line to change it
+                <small>Use “Just rhymes” to see only ideas that rhyme with the other line.</small></p></div>
+            <div class="step"><div class="badge">3</div><p>Add drops and the ending, then tap “See my song”
+                <small>It saves by itself — close it and come back any time.</small></p></div>
         </div>
-        <button class="ok" data-act="dismiss-guide">Got it — let’s start! ✨</button>
+        <button class="ok" data-act="dismiss-guide">Got it — let’s go! ✨</button>
     </div>
 
-    <h2 class="section-title">Your Song</h2>
-    <p class="section-sub" id="versesSub">Four verses to fill in.</p>
-    <div id="verses"></div>
+    <h2 class="section-title">The Song</h2>
+    <p class="section-sub" id="sub">Nothing yet — add your first verse below.</p>
+    <div id="song"></div>
 
-    <button class="add-verse" data-act="add-verse">＋ Add another verse</button>
-
+    <div class="add-row">
+        <button class="add-btn solid" data-act="pick-LOW">＋ Add a verse</button>
+        <button class="add-btn" data-act="pick-DROP">＋ Add a drop</button>
+        <button class="add-btn" data-act="pick-OUTRO">＋ Add the ending</button>
+    </div>
     <div class="footer-actions">
-        <button class="link-btn" data-act="reset">Start over from the beginning</button>
+        <button class="link-btn" data-act="reset">Clear the whole song</button>
     </div>
 </div>
 
 <div class="dock">
-    <button class="primary" id="dockPrimary" data-act="next">✏️ Fill the next line</button>
+    <button class="primary" id="dockPrimary" data-act="pick-LOW">＋ Add your first verse</button>
     <button class="secondary" data-act="open-book">📖 My song</button>
 </div>
 
-<!-- Chooser sheet -->
+<!-- Library picker -->
+<div class="backdrop" id="libModal">
+    <div class="sheet">
+        <div class="sheet-head"><h2 id="libTitle">Pick a verse</h2>
+            <button class="sheet-x" data-act="close-lib" aria-label="Close">✕</button></div>
+        <div class="sheet-hint" id="libHint"></div>
+        <div class="sheet-body" id="libBody"></div>
+        <div class="sheet-foot"><button data-act="close-lib">Cancel</button></div>
+    </div>
+</div>
+
+<!-- Line chooser -->
 <div class="backdrop" id="chooser">
     <div class="sheet">
-        <div class="sheet-head">
-            <h2 id="chTitle">Pick a line</h2>
-            <button class="sheet-x" data-act="close-chooser" aria-label="Close">✕</button>
-        </div>
+        <div class="sheet-head"><h2 id="chTitle">Pick a line</h2>
+            <button class="sheet-x" data-act="close-chooser" aria-label="Close">✕</button></div>
         <div class="sheet-hint" id="chHint"></div>
-        <div class="sheet-body" id="chBody"></div>
-        <div class="sheet-foot">
-            <button data-act="blank">Leave this line blank for now</button>
+        <div class="toggle" id="chToggle" style="display:none">
+            <button data-act="mode-all" class="on">All ideas</button>
+            <button data-act="mode-rhyme">✨ Just rhymes</button>
         </div>
+        <div class="sheet-body" id="chBody"></div>
+        <div class="sheet-foot"><button data-act="blank">Leave this line blank for now</button></div>
     </div>
 </div>
 
 <!-- Songbook -->
 <div class="backdrop" id="bookModal">
     <div class="book">
-        <div class="book-scroll">
-            <h2>Our Camp Song 🎶</h2>
-            <p class="sub" id="bookSub"></p>
-            <div id="bookBody"></div>
-        </div>
+        <div class="book-scroll"><h2>Our Camp Song 🎶</h2>
+            <p class="sub">Camp Bounce Twenty-Six · sing to the Bum Bum tune</p>
+            <div id="bookBody"></div></div>
         <div class="book-foot">
             <button class="b-share" data-act="share">📤 Send my song</button>
-            <div class="row">
-                <button class="b-soft" data-act="copy">📋 Copy</button>
-                <button class="b-soft" data-act="print">🖨️ Print</button>
-            </div>
+            <div class="row"><button class="b-soft" data-act="copy">📋 Copy</button>
+                <button class="b-soft" data-act="print">🖨️ Print</button></div>
             <button class="b-close" data-act="close-book">Close</button>
         </div>
     </div>
@@ -398,313 +324,332 @@
 <div class="confetti" id="confetti" aria-hidden="true"></div>
 
 <script>
-/* ===== DATA (inlined, works offline / from a file) ===== */
+/* ===== TUNE CUES (the side-by-side Bum Bum mapping) ===== */
 const FIXED="Camp Bounce Twenty-Six";
-const SLOTS=[
-    {i:0,target:7,rhyme:"A",kind:"long"},
-    {i:1,target:7,rhyme:"A",kind:"long"},
-    {i:2,target:5,rhyme:"F",fixed:true},
-    {i:3,target:6,rhyme:"B",kind:"medium"},
-    {i:4,target:6,rhyme:"B",kind:"medium"},
-    {i:5,target:5,rhyme:"C",kind:"short"}
-];
-const KIND_WORD={long:"a longer line",medium:"a medium line",short:"a short ending line"};
+const CUES={
+ LOW:["Veloy nesato Hashem","Legoyei ha'aratzos","Loy loy nesato","Ki l'Yisroel amcha","Nesato b'ahava","L'amcha nesato"],
+ DROP:["Bum bum bum","Asher bum bum bum","L'Yisroel amcha nesato b'ahava","Bum bum bum","Asher bum bum bum","Lezera Yaakov asher bam bacharta"],
+ OUTRO:["Bum bum bum","Asher bum bum bum","Bum bum bum","Asher bum bum bum","Two words, one big sound","Camp Bounce is alive now"]
+};
+const DEF={
+ LOW:[{t:7,r:"A",k:"long"},{t:7,r:"A",k:"long"},{fixed:true},{t:6,r:"B",k:"med"},{t:6,r:"B",k:"med"},{t:5,r:"C",k:"short"}],
+ DROP:[{p:"hook",k:"chant"},{p:"mid",k:"cheer"},{p:"long",r:"D",k:"big"},{p:"hook",k:"chant"},{p:"mid",k:"cheer"},{p:"long",r:"D",k:"big"}],
+ OUTRO:[{p:"hook",k:"chant"},{p:"mid",k:"cheer"},{p:"hook",k:"chant"},{p:"mid",k:"cheer"},{t:5,k:"short"},{t:5,k:"short"}]
+};
+const KINDWORD={long:"a longer line",med:"a medium line",short:"a short line",
+    chant:"a quick chant (very short)",cheer:"a short cheer",big:"the big shout-out line (nice and long)"};
 
+/* ===== LOW POOLS (your liked phrases + fresh ideas) ===== */
 const LIKED={
- 7:["Summer fun will never end","Catch the action in the air","Ruach spreading everywhere",
-    "Mixing dough and baking treats","Put a smile upon your face","This is such a happy place",
-    "Watch the summer days go by","Give a cheer and give a try","Our excitement will not fail",
-    "Come along and join the fun","Every day we guess the theme","Happy faces every day",
-    "Staying refreshed, staying cool","Singing loud as we're able"],
- 6:["Two words join together","Helping one another","Voices join together",
-    "Changing us forever","Lift each other higher","Cool off in the water"],
- 5:["Best place you can be","Feel the energy","Having so much fun","Making memories",
-    "Give a giant cheer","Fueling up for fun","Playing in the sun","Brighten up your day",
-    "Success as a one","Sing it out again","Shout it loud and clear"]
+ 7:["Summer fun will never end","Catch the action in the air","Ruach spreading everywhere","Mixing dough and baking treats","Put a smile upon your face","This is such a happy place","Watch the summer days go by","Give a cheer and give a try","Our excitement will not fail","Come along and join the fun","Every day we guess the theme","Happy faces every day","Staying refreshed, staying cool","Singing loud as we're able"],
+ 6:["Two words join together","Helping one another","Voices join together","Changing us forever","Lift each other higher","Cool off in the water"],
+ 5:["Best place you can be","Feel the energy","Having so much fun","Making memories","Give a giant cheer","Fueling up for fun","Playing in the sun","Brighten up your day","Success as a one","Sing it out again","Shout it loud and clear"]
 };
 const AI={
- 7:["Bounce boys cheering everywhere","Summer magic fills the air","Spirit rising like a flame",
-    "Camp Bounce glory, shout the name","Running fast across the field","Watch the power that we wield",
-    "Every day a brand new start","Camp Bounce living in our heart","Friendships here will never break",
-    "Memories that we will make","Davening to start the day","Torah lights us on our way",
-    "Jump and shout and never stop","Bouncing all the way to top","Hear the ruach all around",
-    "Camp Bounce makes the greatest sound","Sun is shining, skies are clear","Best camp summer of the year",
-    "Through the summer hand in hand","Greatest camp in all the land","Splashing in the pool today",
-    "Never wanna go away","Reaching higher, aiming far","Every camper is a star",
-    "Win or lose we give our all","Stand up proud and stand up tall","Sing it loud, we will prevail",
-    "Catch the wind and ride the trail","Marshmallows around the fire","Camp Bounce never will retire",
-    "Cabin lights are glowing bright","Stars are out, it's camp tonight","Singing songs around the bend",
-    "Friends we'll keep until the end","Color war is on its way","Cheer your team and win the day",
-    "Hiking up the mountainside","Feel the summer, feel the pride","Lake is calm and skies are blue",
-    "Camp Bounce dreams are coming true","Morning sun begins to climb","Best camp of the summertime",
-    "Every camper, big and small","Camp Bounce welcomes one and all","Ruach pumping in our veins",
-    "Through the sunshine and the rains","Bunkmates laughing through the night","Everything is feeling right"],
- 6:["Growing up together","Friends through any weather","Reaching for the sky now",
-    "Lighting up the sky now","Cheering for each other","Treat him like a brother",
-    "Spirit never fading","Memories worth saving","Climbing ever higher",
-    "Lighting up the fire","Running through the meadow","Catching every echo",
-    "Marching to the beat now","Dancing on our feet now","Bouncing all day long now",
-    "Singing out our song now","Hearts are beating stronger","Stay a little longer",
-    "Holding on forever","Best camp ever, ever","Splashing in the water",
-    "Jumping off the dock now","Beat the morning clock now","Standing all together",
-    "Light as any feather","Friendship is our power","Better every hour",
-    "Going extra mile now","Camp Bounce all the way now","Loving every day now",
-    "Never gonna stop now","Reaching for the top now"],
- 5:["Best camp you can find","Leave it all behind","Let the good times roll",
-    "Camp Bounce heart and soul","Summer never ends","Here with all my friends",
-    "Reach the highest peak","This is what we seek","Hear the campers cheer",
-    "Glad that we are here","Light it up tonight","Everything's alright",
-    "One team and one beat","Camp Bounce can't be beat","Spirit running wild",
-    "Happy like a child","Shout it to the sky","Bounce boys aiming high",
-    "Friends forevermore","Hear the summer roar","Camp Bounce is the best",
-    "Better than the rest","Summer of our dreams","Bursting at the seams",
-    "Feel the ruach grow","Ready, set, let's go","Camp Bounce all year long",
-    "Sing the camp's own song","Memories to keep","Friendships go so deep",
-    "Jump up to the sky","Summer days go by","Love this place so much",
-    "Keep us close in touch","Brothers to the end","Camp Bounce, my best friend"]
+ 7:["Bounce boys cheering everywhere","Summer magic fills the air","Spirit rising like a flame","Camp Bounce glory, shout the name","Running fast across the field","Watch the power that we wield","Every day a brand new start","Camp Bounce living in our heart","Friendships here will never break","Memories that we will make","Davening to start the day","Torah lights us on our way","Jump and shout and never stop","Bouncing all the way to top","Hear the ruach all around","Camp Bounce makes the greatest sound","Sun is shining, skies are clear","Best camp summer of the year","Through the summer hand in hand","Greatest camp in all the land","Splashing in the pool today","Never wanna go away","Reaching higher, aiming far","Every camper is a star","Win or lose we give our all","Stand up proud and stand up tall","Sing it loud, we will prevail","Catch the wind and ride the trail","Marshmallows around the fire","Camp Bounce never will retire","Cabin lights are glowing bright","Stars are out, it's camp tonight","Singing songs around the bend","Friends we'll keep until the end","Color war is on its way","Cheer your team and win the day","Hiking up the mountainside","Feel the summer, feel the pride","Lake is calm and skies are blue","Camp Bounce dreams are coming true","Morning sun begins to climb","Best camp of the summertime","Every camper, big and small","Camp Bounce welcomes one and all","Ruach pumping in our veins","Through the sunshine and the rains","Bunkmates laughing through the night","Everything is feeling right"],
+ 6:["Growing up together","Friends through any weather","Reaching for the sky now","Lighting up the sky now","Cheering for each other","Treat him like a brother","Spirit never fading","Memories worth saving","Climbing ever higher","Lighting up the fire","Running through the meadow","Catching every echo","Marching to the beat now","Dancing on our feet now","Bouncing all day long now","Singing out our song now","Hearts are beating stronger","Stay a little longer","Holding on forever","Best camp ever, ever","Splashing in the water","Jumping off the dock now","Beat the morning clock now","Standing all together","Light as any feather","Friendship is our power","Better every hour","Going extra mile now","Camp Bounce all the way now","Loving every day now","Never gonna stop now","Reaching for the top now"],
+ 5:["Best place you can be","Best camp you can find","Leave it all behind","Let the good times roll","Camp Bounce heart and soul","Summer never ends","Here with all my friends","Reach the highest peak","This is what we seek","Hear the campers cheer","Glad that we are here","Light it up tonight","Everything's alright","One team and one beat","Camp Bounce can't be beat","Spirit running wild","Happy like a child","Shout it to the sky","Bounce boys aiming high","Friends forevermore","Hear the summer roar","Camp Bounce is the best","Better than the rest","Summer of our dreams","Bursting at the seams","Feel the ruach grow","Ready, set, let's go","Camp Bounce all year long","Sing the camp's own song","Memories to keep","Friendships go so deep","Jump up to the sky","Summer days go by","Love this place so much","Keep us close in touch","Brothers to the end","Camp Bounce, my best friend"]
 };
-const SEED=[
- {id:1,name:"Verse 1",slots:["Put a smile upon your face","This is such a happy place",FIXED,
-   "Watch the summer days fly","Playing in the warm sun","Let the fun begin!"]},
- {id:2,name:"Verse 2",slots:["Catch the action in the air","Ruach spreading everywhere",FIXED,
-   "Two words join together","Fun will never end now","Feel the energy!"]},
- {id:3,name:"Verse 3",slots:["Give a cheer and give a try","Helping out one another",FIXED,
-   "Lift each other higher","Standing as a one now","Shout it loud and clear"]},
- {id:4,name:"Verse 4",slots:["Excitement will never fail","Sing it loud, we will prevail",FIXED,
-   "Voices join together","Changing us forever","Making memories"]}
-];
+
+/* ===== HIGH / DROP POOLS ===== */
+const HP=[["Camp Bounce boys","Shout it loud and clear","Waterslides and baseball games, the ruach’s always here"],["Join the fun","Let’s hear everyone","Singing loud and jumping high until the day is done"],["Double up","Turn two into one","Compound words and action packed, the summer has begun"],["Feel the beat","Get up on your feet","Camp Bounce is the only place where summer is so sweet"],["Hear the roar","Give us even more","Every trip and every game, we’re waiting for some more"],["One big team","Living out the dream","Catch the action, feel the vibe, we’re going to the extreme"],["Two in one","Double all the fun","We won’t stop the energy until the summer’s done"],["Yes we can","Follow out the plan","Best counselors and campers here in all the summer land"],["Watch us go","Put on quite a show","Growing bigger every day, just watch the ruach grow"],["Sing it loud","Standing very proud","Learning, growing, friends for life, the best boys in the crowd"],["Jump, jump, jump","Get your heart to pump","Every obstacle we find, we’re gonna take a jump"],["Hand in hand","Best camp in the land","Building something special that the whole world understands"],["Shout, shout, shout","What it’s all about","We’re the camp that everyone is talking all about"],["Hold on tight","Shining very bright","Middos and a happy face from morning until night"],["Give a cheer","Best part of the year","Happy smiles and giant laughs are all we ever hear"],["Catch the wave","Bold and very brave","Memories of summer time are everything we crave"],["Fly so high","Reach up to the sky","Watching all the happy days of summer flying by"],["Deep inside","With a lot of pride","Camp Bounce is the place where all the happy boys reside"],["Make a noise","Camp Bounce for the boys","Nothing in the world can match our summer campy joys"],["Step by step","With a lot of pep","Building up our summer time and building up our rep"],["Turn around","See what we have found","Happiness is everywhere on this here camping ground"],["Light it up","Fill your summer cup","From the early morning till the time that we go up"],["Side by side","Nowhere left to hide","Take the ruach, take the joy and take it for a ride"],["All day long","Singing out our song","We are big and we are brave and we are very strong"],["Once again","Tell a little friend","This is where the summer fun is never gonna end"],["Look at us","Don’t you make a fuss","We are going on a trip inside a yellow bus"],["Back for more","Open up the door","This is what the Camp Bounce boys are always waiting for"],["Right away","Start another day","Come along and join the fun, we’re coming out to play"],["Best of all","Standing very tall","We will be the ones to catch you even if you fall"],["Everywhere","Ruach in the air","Camp Bounce boys are happy boys beyond all compare"],["Hit the ball","Give it your all","Running to the home plate, yeah we're having such a ball"],["Make it last","Moving very fast","Put the winter and the school into the distant past"],["Double time","Making up a rhyme","Every single hill of summer we are gonna climb"],["Top to floor","Give us even more","We are knocking loudly on the summer’s golden door"],["Hear us now","We will show you how","Every single Bounce boy has to take a giant bow"],["Heart and soul","That is how we roll","Reaching for the finish line and reaching for our goal"],["In the sun","Best for everyone","Don’t you know that Camp Bounce is the place for summer fun"],["Wild and free","That is what we’ll be","Bestest camp that anyone will ever get to see"],["High and low","Watch the spirit grow","We are on a summer trip and moving on the go"],["Work it out","Give a giant shout","This is what the compound word is really all about"],["Up and down","Bestest camp in town","We will never ever let you wear a summer frown"],["Keep it live","Twenty-Six arrive","This is how the Camp Bounce boys will always stay alive"],["Big and small","We will have it all","We are answering the summer’s happy giant call"],["Torah light","Shining very bright","We are learning every day and doing what is right"],["Middos too","In all that we do","We are being kind and helpful to the likes of you"],["Wait and see","What it’s gonna be","Bestest place in all the world for you and also me"],["On the go","Let the spirit flow","We are moving very fast and moving on the go"],["Take a chance","Do a little dance","We are looking at the summer with a happy glance"],["Real McCoy","Every single boy","Is a source of happiness and source of summer joy"],["Day and night","Everything’s alright","We are shining every day just like a beacon light"],["Over here","Give a giant cheer","Camp Bounce is the only place we want to be this year"],["Round and round","See what we have found","Ruach is the only thing on this here camping ground"],["Piece of cake","Look at what we make","Every single memory is for the summer’s sake"],["Bigger now","We will show you how","We are taking all the fun and taking quite a bow"],["Final count","Watch the spirit mount","Camp Bounce is the only source and only summer fount"],["End of song","We have been so strong","See you all in Twenty-Seven, come and join along"]];
+const DL=["Backpack, campfire, sunshine, teamwork, having so much fun","Playground, home run, waterslide, we’ve only just begun","Moonlight, starlight, drumbeat, heartbeat, having so much fun","Field day, sideline, friendship, sunshine, having so much fun","Basketball and baseball, soccer, playing all the way","Birthday, cupcake, pancake, milkshake, tasting very sweet","Raindrop, rainbow, raincoat, rain boots, splashing on the street","Goldfish, starfish, jellyfish and swimming in the sea","Notebook, textbook, scrapbook, story, for the world to see","Sunflower and bluebell, daisy, watch the flowers bloom","Sandbox, swing set, slide and see-saw, never have a frown","Teapot, teacup, teaspoon, table, till the day is done","Weekend, weekday, everyday and having such a blast","Sidewalk, crosswalk, boardwalk, walking on the summer street","Jellybean and gumdrop, lollipop, sweet as honeycomb","Bedroom, bathroom, playroom, bunkroom, never feel alone","Flashlight, spotlight, nightlight, shining in the dark of night","Sandcastle and seashell, seashore, everything’s alright","Birdhouse, doghouse, farmhouse, greenhouse, nature is our friend","Waterfall and waterwheel and fun that’ll never end","Background, foreground, playground, campground, summer has begun","Handshake, handball, handstand, handmade, working with our hands","Notebook, bookmark, bookshelf, bookstore, reading all the time","Mountain, hilltop, canyon, valley, every hill we’ll climb","Backspace, backrest, backfire, backflip, jumping in the air","Shipwreck, shipyard, shipmate, shipping ruach everywhere","Teammate, teamwork, team-play, team-lead, working as a one","Sunshine, sunblock, sun-rays, sunbathe, playing in the sun","Moonlight, moonbeam, moonrise, moonwalk, dancing in the night","Starfish, starlight, starbright, starburst, shining very bright","Heartbeat, heartthrob, heartland, heart-song, full of summer love","Drumbeat, drumstick, drumroll, drummer, making lots of noise","Lifeguard, lifebelt, lifebuoy, life-raft, for the Camp Bounce boys","Fieldwork, field trip, field day, field-goal, playing on the grass","Basketball and backboard, basket, shooting for the win","Baseball, base-hit, basement, base-run, let the games begin","Super-man and super-star and super-summer fun","Twenty-Six and Twenty-Seven, camp has just begun"];
+const uniq=a=>[...new Set(a)];
+const HOOKS=uniq(["Camp Bounce boys"].concat(HP.map(r=>r[0])));
+const MIDS=uniq(HP.map(r=>r[1]));
+const LONGS_A=uniq(HP.map(r=>r[2]));
+const LONGS_W=uniq(DL);
+/* Curated ~13-syllable drop lines that all rhyme in the -un family
+   (begun/fun/sun/done/one) so ANY two you pick rhyme. */
+const LONGS_UN=["Playground, home run, waterslide, we’ve only just begun","Friendship, sunshine, teamwork, ruach, having so much fun","Backpack, campfire, field day, sideline, summer has begun","Sunshine, sun-rays, swimming, sports, and playing in the sun","Field day, color war, and home runs till the day is done","Waterslide and drumbeat, campfire, swimming in the sun","Teamwork, friendship, ruach, spirit, second now to none","Baseball, home run, hiking, biking, summer’s just begun","Backpack, sunblock, water bottle, fun for everyone","Campfire, starlight, s’mores and stories, day is nearly done","Splashing, jumping, diving, swimming, playing in the sun","Trips and prizes, games and crafts, the fun has just begun"];
+const LONGS_OTHER=["Baseball, kickball, home run, field day, playing on the grass","Waterslide and home run, baseball, for the Camp Bounce boys"];
+/* The high-part lines you liked in bounce_high_part_eval.json */
+const LIKED_MID=["Shout it loud and clear","Let’s hear everyone","Turn two into one","Double all the fun","Ruach in the air","Give it your all"];
+const LIKED_LONG=["Waterslides and baseball games, the ruach’s always here","Singing loud and jumping high until the day is done","Compound words and action packed, the summer has begun","We won’t stop the energy until the summer’s done","Best counselors and campers here in all the summer land","This is where the summer fun is never gonna end","Come along and join the fun, we’re coming out to play"];
+
+/* ===== PRE-CHOSEN LIBRARY (you pick one of these when you add) =====
+   Verses are rhyme-built from your liked phrases. Where no liked phrase
+   rhymed, the line is left blank on purpose (null) — never forced. */
+const CB="Camp Bounce boys", SH="Shout it loud and clear";
+const LIBRARY={
+ LOW:[
+  {tag:"rhymes",name:"Opening — “face / place”",
+   slots:["Put a smile upon your face","This is such a happy place",FIXED,"Voices join together","Changing us forever","Having so much fun"]},
+  {tag:"rhymes",name:"Action — “by / try”",
+   slots:["Watch the summer days go by","Give a cheer and give a try",FIXED,"Two words join together","Helping one another","Playing in the sun"]},
+  {tag:"rhymes",name:"Ruach — “air / everywhere”",
+   slots:["Catch the action in the air","Ruach spreading everywhere",FIXED,"Lift each other higher",null,"Fueling up for fun"]},
+  {tag:"part",name:"Excitement — has blanks",
+   slots:["Our excitement will not fail",null,FIXED,"Cool off in the water",null,"Success as a one"]},
+  {tag:"blank",name:"Blank verse — build it yourself",
+   slots:[null,null,FIXED,null,null,null]}
+ ],
+ DROP:[
+  {tag:"rhymes",name:"Classic Drop — your favorite",
+   slots:[CB,SH,"Compound words and action packed, the summer has begun",CB,SH,"We won’t stop the energy until the summer’s done"]},
+  {tag:"rhymes",name:"Begun / fun drop",
+   slots:[CB,SH,"Playground, home run, waterslide, we’ve only just begun",CB,SH,"Friendship, sunshine, teamwork, ruach, having so much fun"]},
+  {tag:"blank",name:"Blank drop — pick the big lines",
+   slots:[CB,SH,null,CB,SH,null]}
+ ],
+ OUTRO:[
+  {tag:"rhymes",name:"Classic Ending",
+   slots:[CB,SH,CB,SH,"Two words, one big sound","Camp Bounce is alive now!"]}
+ ]
+};
 
 /* ===== STATE ===== */
-const KEY="campBounce26.songBuilder.v1";
+const KEY="campBounce26.songBuilder.v4";
 const GKEY="campBounce26.songBuilder.guide";
-let state,nextId,cur={vi:null,si:null},wasComplete=false;
-
-const dflt=()=>({v:1,verses:JSON.parse(JSON.stringify(SEED))});
-function load(){try{const r=localStorage.getItem(KEY);if(!r)return dflt();
-    const p=JSON.parse(r);if(!p||p.v!==1||!Array.isArray(p.verses)||!p.verses.length)return dflt();
-    return p;}catch(e){return dflt();}}
+let state,nextId,cur={bi:null,si:null},wasComplete=false,libType=null,rhymeOnly=false;
+const clone=o=>JSON.parse(JSON.stringify(o));
+function load(){try{const r=localStorage.getItem(KEY);if(!r)return{v:4,blocks:[]};
+    const p=JSON.parse(r);if(!p||p.v!==4||!Array.isArray(p.blocks))return{v:4,blocks:[]};
+    return p;}catch(e){return{v:4,blocks:[]};}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state));toast("Saved ✓");}catch(e){}}
 
 /* ===== HELPERS ===== */
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function rhymeKey(line){
-    if(!line)return"";
-    let w=String(line).trim().toLowerCase().split(/\s+/).pop().replace(/[^a-z]/g,"");
-    let m=w.match(/[aeiouy][a-z]*$/);
-    return m?m[0]:w.slice(-3);
+function rhymeKey(l){if(!l)return"";let w=String(l).trim().toLowerCase().split(/\s+/).pop().replace(/[^a-z]/g,"");
+    let m=w.match(/[aeiouy][a-z]*$/);return m?m[0]:w.slice(-3);}
+function rhymes(a,b){if(!a||!b)return false;const x=rhymeKey(a),y=rhymeKey(b);
+    return !!x&&!!y&&(x===y||x.slice(-2)===y.slice(-2));}
+const defOf=b=>DEF[b.type];
+function poolFor(slot){
+    if(slot.fixed)return null;
+    if(slot.p==="hook")return[["Drop chant",HOOKS]];
+    if(slot.p==="mid")return[["💛 From your picks",LIKED_MID],["More cheers",MIDS]];
+    if(slot.p==="long")return[["💛 From your picks",LIKED_LONG],["✨ More that rhyme",LONGS_UN],
+        ["🎬 Action lines",LONGS_A],["🧩 Word-list lines",LONGS_W],["Other endings",LONGS_OTHER]];
+    return[["💛 Lines you loved",LIKED[slot.t]||[]],["✨ Fresh ideas",AI[slot.t]||[]]];
 }
-function rhymes(a,b){
-    if(!a||!b)return false;
-    const ka=rhymeKey(a),kb=rhymeKey(b);
-    if(!ka||!kb)return false;
-    return ka===kb||ka.slice(-2)===kb.slice(-2);
-}
-function fillable(){let t=0,d=0;state.verses.forEach(v=>SLOTS.forEach(s=>{
-    if(s.fixed)return;t++;if(v.slots[s.i])d++;}));return{t,d};}
+function counts(){let t=0,d=0;state.blocks.forEach(b=>defOf(b).forEach((s,i)=>{
+    if(s.fixed)return;t++;if(b.slots[i])d++;}));return{t,d};}
+const kindLabel=t=>t==='LOW'?'Verse':t==='DROP'?'Drop':'Outro';
 
 /* ===== RENDER ===== */
 function render(){
-    const box=document.getElementById('verses');
-    box.innerHTML='';
-    state.verses.forEach((v,vi)=>{
-        const done=SLOTS.every(s=>s.fixed||v.slots[s.i]);
-        const card=document.createElement('div');
-        card.className='verse'+(done?' done':'');
-        let rows='';
-        SLOTS.forEach(s=>{
-            const val=v.slots[s.i];
-            if(s.fixed){
-                rows+=`<div class="line fixed"><span class="line-num"><span class="lock">🔒</span></span>
-                    <span class="line-text">${esc(FIXED)}</span>
-                    <span class="line-cta">stays the same</span></div>`;
-            }else if(val){
-                rows+=`<button class="line filled" data-act="choose" data-vi="${vi}" data-si="${s.i}">
-                    <span class="line-num">${s.i+1}</span>
-                    <span class="line-text">${esc(val)}</span>
-                    <span class="line-cta">tap to change</span></button>`;
-            }else{
-                rows+=`<button class="line empty" data-act="choose" data-vi="${vi}" data-si="${s.i}">
-                    <span class="line-num">${s.i+1}</span>
-                    <span class="line-text">Tap to pick a line…</span>
-                    <span class="line-cta">choose ✏️</span></button>`;
-            }
+    const box=document.getElementById('song');
+    if(!state.blocks.length){
+        box.innerHTML=`<div class="empty-state"><div class="big">🎶</div>
+            <h3>Your song is empty</h3>
+            <p>Tap “＋ Add a verse” to pick a ready-made verse to start with.</p>
+            <button class="add-btn solid" data-act="pick-LOW" style="max-width:260px;margin:0 auto;">＋ Add a verse</button>
+            </div>`;
+    }else{
+        box.innerHTML='';
+        state.blocks.forEach((b,bi)=>{
+            const def=defOf(b),cues=CUES[b.type];
+            const done=def.every((s,i)=>s.fixed||b.slots[i]);
+            const card=document.createElement('div');
+            card.className=`block t-${b.type}`+(done?' done':'');
+            let rows='';
+            def.forEach((s,i)=>{
+                const cue=cues[i]||'',val=s.fixed?FIXED:b.slots[i];
+                const cls=s.fixed?'line fixed':(val?'line filled':'line empty');
+                const cta=s.fixed?'stays the same':(val?'tap to change':'choose ✏️');
+                const numTxt=s.fixed?'🔒':(i+1);
+                const txt=s.fixed?FIXED:(val||'Tap to pick a line…');
+                const tag=s.fixed?'div':'button';
+                const click=s.fixed?'':`data-act="choose" data-bi="${bi}" data-si="${i}"`;
+                rows+=`<${tag} class="${cls}" ${click}><span class="cue">${esc(cue)}</span>
+                    <span class="line-main"><span class="line-num">${numTxt}</span>
+                    <span class="line-text">${esc(txt)}</span>
+                    <span class="line-cta">${cta}</span></span></${tag}>`;
+            });
+            card.innerHTML=`<div class="block-head">
+                <span class="block-kind">${kindLabel(b.type)}</span>
+                <input class="block-name" value="${esc(b.name)}" data-act="rename" data-bi="${bi}" aria-label="Section name">
+                <button class="block-del" data-act="del" data-bi="${bi}" title="Remove">✕</button>
+                <span class="block-tick">${done?'✓':'•'}</span></div>${rows}`;
+            box.appendChild(card);
         });
-        card.innerHTML=`<div class="verse-head">
-            <input class="verse-name" value="${esc(v.name)}" data-act="rename" data-vi="${vi}"
-                aria-label="Verse name">
-            <span class="verse-tick">${done?'✓':'•'}</span></div>${rows}`;
-        box.appendChild(card);
-    });
-    const {t,d}=fillable();
-    const pctNum=t?Math.round(d/t*100):0;
-    const C=2*Math.PI*32;
-    document.getElementById('ringFg').setAttribute('stroke-dasharray',C.toFixed(0));
-    document.getElementById('ringFg').setAttribute('stroke-dashoffset',(C*(1-(t?d/t:0))).toFixed(1));
-    document.getElementById('ringPct').textContent=pctNum+'%';
-    document.getElementById('progNum').textContent=`${d} of ${t}`;
+    }
+    const {t,d}=counts(),pct=t?Math.round(d/t*100):0,C=2*Math.PI*26;
+    const fg=document.getElementById('ringFg');
+    fg.setAttribute('stroke-dasharray',C.toFixed(0));
+    fg.setAttribute('stroke-dashoffset',(C*(1-(t?d/t:0))).toFixed(1));
+    document.getElementById('ringPct').textContent=pct+'%';
+    document.getElementById('progNum').textContent=t?`${d} of ${t}`:'Empty';
     document.getElementById('progMsg').textContent=
-        d===t?'all done — great job! 🎉':(d===0?'lines to fill in':'lines filled in');
-    document.getElementById('versesSub').textContent=
-        `${state.verses.length} verse${state.verses.length>1?'s':''} — ${d===t?'finished!':'fill in every line'}`;
-
+        !t?'add a verse to start':(d===t?'all done — amazing! 🎉':'lines filled in');
+    document.getElementById('sub').textContent=
+        !state.blocks.length?'Nothing yet — add your first verse below.':
+        `${state.blocks.length} section${state.blocks.length>1?'s':''} · ${d===t?'finished!':(t-d)+' line'+(t-d===1?'':'s')+' left'}`;
     const dp=document.getElementById('dockPrimary');
-    if(d===t){dp.textContent='🎉 See my finished song';dp.dataset.act='open-book';dp.classList.add('celebrate');}
+    if(!state.blocks.length){dp.textContent='＋ Add your first verse';dp.dataset.act='pick-LOW';dp.classList.remove('celebrate');}
+    else if(d===t){dp.textContent='🎉 See my finished song';dp.dataset.act='open-book';dp.classList.add('celebrate');}
     else{dp.textContent='✏️ Fill the next line';dp.dataset.act='next';dp.classList.remove('celebrate');}
-
-    if(d===t&&t>0&&!wasComplete)celebrate();
-    wasComplete=(d===t&&t>0);
+    if(t>0&&d===t&&!wasComplete)celebrate();
+    wasComplete=(t>0&&d===t);
 }
 
-/* ===== CHOOSER ===== */
-function openChooser(vi,si){
-    const s=SLOTS[si];if(s.fixed)return;
-    cur={vi,si};
-    const v=state.verses[vi];
-    document.getElementById('chTitle').textContent=`Line ${si+1} of ${esc(v.name)}`;
-    // partner line for rhyme help
-    let partnerIdx=null;
-    if(s.rhyme==='A')partnerIdx=(si===0?1:0);
-    if(s.rhyme==='B')partnerIdx=(si===3?4:3);
-    const partnerVal=partnerIdx!=null?v.slots[partnerIdx]:null;
-    let hint=`Pick ${KIND_WORD[s.kind]}.`;
-    if(partnerIdx!=null){
-        hint+=partnerVal
-            ?`<span class="rhyme">It should rhyme with line ${partnerIdx+1}: <em>${esc(partnerVal)}</em></span>`
-            :`<span class="rhyme">Lines ${Math.min(si,partnerIdx)+1} &amp; ${Math.max(si,partnerIdx)+1} rhyme with each other.</span>`;
-    }
-    document.getElementById('chHint').innerHTML=hint;
+/* ===== LIBRARY PICKER ===== */
+function openLib(type){
+    libType=type;
+    document.getElementById('libTitle').textContent=
+        type==='LOW'?'Pick a verse to add':type==='DROP'?'Pick a drop to add':'Pick the ending';
+    document.getElementById('libHint').innerHTML=
+        type==='LOW'?'These are built from the lines you liked — they already rhyme. Blank lines are left for you to fill.'
+        :type==='DROP'?'The chant repeats; pick a drop whose two big lines rhyme.'
+        :'Adds the final shout to end the song.';
+    document.getElementById('libBody').innerHTML=LIBRARY[type].map((it,ix)=>{
+        const def=DEF[type];
+        const prev=it.slots.map((v,i)=>def[i].fixed
+            ?`<div class="pl">${esc(FIXED)}</div>`
+            :(v?`<div class="pl">${esc(v)}</div>`:`<div class="pl b">( you’ll pick this line )</div>`)).join('');
+        const pill=it.tag==='rhymes'?'RHYMES':it.tag==='blank'?'BLANK':'SOME BLANKS';
+        return `<button class="lib-card" data-act="add-lib" data-ix="${ix}">
+            <h4>${esc(it.name)} <span class="pill">${pill}</span></h4>${prev}
+            <div class="add">＋ Add this ${kindLabel(type).toLowerCase()}</div></button>`;
+    }).join('');
+    document.getElementById('libModal').classList.add('open');
+}
+function closeLib(){document.getElementById('libModal').classList.remove('open');}
+function addLib(ix){
+    const it=LIBRARY[libType][ix];
+    const slots=it.slots.map((v,i)=>DEF[libType][i].fixed?FIXED:v);
+    let nm=it.name;
+    if(libType==='LOW'){const n=state.blocks.filter(b=>b.type==='LOW').length+1;nm=`Verse ${n} — ${it.name}`;}
+    state.blocks.push({id:nextId++,type:libType,name:nm,slots});
+    save();render();closeLib();
+    setTimeout(()=>{const els=document.querySelectorAll('.block');
+        if(els.length)els[els.length-1].scrollIntoView({behavior:'smooth',block:'center'});},80);
+}
 
-    const liked=(LIKED[s.target]||[]).slice();
-    const ai=(AI[s.target]||[]).slice();
-    const sortR=arr=>partnerVal?arr.slice().sort((a,b)=>(rhymes(b,partnerVal)?1:0)-(rhymes(a,partnerVal)?1:0)):arr;
-    window._opts=[];
-    const grp=(label,arr)=>{
-        if(!arr.length)return'';
-        let h=`<div class="opt-group">${label}</div>`;
-        sortR(arr).forEach(txt=>{
-            const idx=window._opts.push(txt)-1;
-            const isCur=v.slots[si]===txt;
-            const r=partnerVal&&rhymes(txt,partnerVal);
-            h+=`<button class="opt${isCur?' current':''}" data-act="pick" data-idx="${idx}">
-                <span class="tick">${isCur?'✓':''}</span>
-                <span>${esc(txt)}</span>
-                ${r?'<span class="rhymes-tag">rhymes 💛</span>':''}</button>`;
-        });
-        return h;
-    };
-    document.getElementById('chBody').innerHTML=
-        grp('💛 Lines you loved',liked)+grp('✨ Fresh ideas',ai);
-    document.getElementById('chBody').scrollTop=0;
+/* ===== LINE CHOOSER ===== */
+function openChooser(bi,si){
+    const b=state.blocks[bi],s=defOf(b)[si];if(s.fixed)return;
+    cur={bi,si};rhymeOnly=false;
+    document.getElementById('chTitle').textContent=`Line ${si+1} · ${esc(b.name)}`;
+    let pIdx=null;
+    if(s.r==="A")pIdx=(si===0?1:0);else if(s.r==="B")pIdx=(si===3?4:3);else if(s.r==="D")pIdx=(si===2?5:2);
+    cur.partner=pIdx!=null?b.slots[pIdx]:null;cur.pIdx=pIdx;
+    let hint=`<span class="cuebox">♪ Sing where the tune goes: “${esc(CUES[b.type][si]||'')}”</span>Pick ${KINDWORD[s.k]||'a line'}.`;
+    if(s.p==="hook"||s.p==="mid"){const tw=s.p==="hook"?"chant":"cheer";
+        hint+=`<span class="rhyme">Tip: the ${tw} usually repeats every drop.</span>`;}
+    else if(pIdx!=null){hint+=cur.partner
+        ?`<span class="rhyme">Should rhyme with line ${pIdx+1}: <em>${esc(cur.partner)}</em></span>`
+        :`<span class="rhyme">Lines ${Math.min(si,pIdx)+1} &amp; ${Math.max(si,pIdx)+1} rhyme — fill the other one too.</span>`;}
+    document.getElementById('chHint').innerHTML=hint;
+    const tg=document.getElementById('chToggle');
+    if(cur.partner){tg.style.display='flex';setMode(false);}else{tg.style.display='none';}
+    renderOpts();
     document.getElementById('chooser').classList.add('open');
 }
-function closeChooser(){document.getElementById('chooser').classList.remove('open');}
-function pick(txt){
-    state.verses[cur.vi].slots[cur.si]=txt;save();render();closeChooser();
-    setTimeout(()=>{const d=fillable();if(d.d<d.t)scrollToNextEmpty(false);},260);
+function setMode(r){rhymeOnly=r;
+    document.querySelector('[data-act="mode-all"]').classList.toggle('on',!r);
+    document.querySelector('[data-act="mode-rhyme"]').classList.toggle('on',r);
+    renderOpts();}
+function renderOpts(){
+    const b=state.blocks[cur.bi],s=defOf(b)[cur.si],p=cur.partner;
+    window._opts=[];let html='';
+    const sortR=arr=>p?arr.slice().sort((a,bb)=>(rhymes(bb,p)?1:0)-(rhymes(a,p)?1:0)):arr;
+    poolFor(s).forEach(([label,arr])=>{
+        if(!arr||!arr.length)return;
+        let list=sortR(arr);
+        if(rhymeOnly&&p)list=list.filter(x=>rhymes(x,p));
+        if(!list.length)return;
+        html+=`<div class="opt-group">${label}</div>`;
+        list.forEach(txt=>{const idx=window._opts.push(txt)-1;
+            const isCur=b.slots[cur.si]===txt,rg=p&&rhymes(txt,p);
+            html+=`<button class="opt${isCur?' current':''}" data-act="pick" data-idx="${idx}">
+                <span class="tick">${isCur?'✓':''}</span><span>${esc(txt)}</span>
+                ${rg?'<span class="rt">rhymes 💛</span>':''}</button>`;});
+    });
+    if(!html)html=`<div class="empty-note">No rhyming ideas found.<br>Tap “All ideas” to see every option.</div>`;
+    const body=document.getElementById('chBody');body.innerHTML=html;body.scrollTop=0;
 }
-function blank(){state.verses[cur.vi].slots[cur.si]=null;save();render();closeChooser();}
+function closeChooser(){document.getElementById('chooser').classList.remove('open');}
+function pick(t){state.blocks[cur.bi].slots[cur.si]=t;save();render();closeChooser();
+    setTimeout(()=>{const c=counts();if(c.d<c.t)scrollNext(false);},240);}
+function blank(){state.blocks[cur.bi].slots[cur.si]=null;save();render();closeChooser();}
 
-/* ===== NAV / NEXT ===== */
-function scrollToNextEmpty(openIt){
-    for(let vi=0;vi<state.verses.length;vi++)for(const s of SLOTS){
-        if(s.fixed)continue;
-        if(!state.verses[vi].slots[s.i]){
-            const el=document.querySelector(`[data-act="choose"][data-vi="${vi}"][data-si="${s.i}"]`);
-            if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
-            if(openIt)setTimeout(()=>openChooser(vi,s.i),320);
-            return true;
-        }
-    }
+/* ===== NAV ===== */
+function scrollNext(openIt){
+    for(let bi=0;bi<state.blocks.length;bi++){
+        const def=defOf(state.blocks[bi]);
+        for(let si=0;si<def.length;si++){
+            if(def[si].fixed)continue;
+            if(!state.blocks[bi].slots[si]){
+                const el=document.querySelector(`[data-act="choose"][data-bi="${bi}"][data-si="${si}"]`);
+                if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+                if(openIt)setTimeout(()=>openChooser(bi,si),300);
+                return true;}}}
     return false;
 }
 
 /* ===== SONGBOOK ===== */
-function songText(){
-    return state.verses.map(v=>v.name+"\n"+
-        v.slots.map(x=>x?x:"( ___ )").join("\n")).join("\n\n")+
-        "\n\n— made with the Camp Bounce Song Builder";
-}
+function songText(){return state.blocks.map(b=>{const def=defOf(b);
+    return b.name+"\n"+def.map((s,i)=>s.fixed?FIXED:(b.slots[i]||"( ___ )")).join("\n");
+}).join("\n\n")+"\n\n— sing to the Bum Bum tune · made with the Camp Bounce Song Builder";}
 function openBook(){
-    document.getElementById('bookSub').textContent='Camp Bounce Twenty-Six';
-    document.getElementById('bookBody').innerHTML=state.verses.map(v=>
-        `<div class="bk-verse"><h3>${esc(v.name)}</h3>`+
-        v.slots.map(x=>x?`<div class="bk-line">${esc(x)}</div>`
-                       :`<div class="bk-line blank">( still empty )</div>`).join('')+
-        `</div>`).join('');
+    if(!state.blocks.length){toast("Add a verse first 🎵");return;}
+    document.getElementById('bookBody').innerHTML=state.blocks.map(b=>{
+        const def=defOf(b),cues=CUES[b.type];
+        return `<div class="bk-block"><h3>${esc(b.name)} · ${kindLabel(b.type)}</h3>`+
+        def.map((s,i)=>{const v=s.fixed?FIXED:b.slots[i];
+            return `<div class="bk-row"><div class="bk-cue">${esc(cues[i]||'')}</div>
+            <div class="bk-lyr${v?'':' blank'}">${esc(v||'( still empty )')}</div></div>`;}).join('')+
+        `</div>`;}).join('');
     document.getElementById('bookModal').classList.add('open');
 }
 function closeBook(){document.getElementById('bookModal').classList.remove('open');}
-async function share(){
-    const text=songText();
-    if(navigator.share){try{await navigator.share({title:'Our Camp Bounce Song',text});return;}catch(e){if(e&&e.name==='AbortError')return;}}
-    copy();
-}
-function copy(){
-    const text=songText();
-    const done=()=>toast('Song copied — paste it in a text or email 💌');
-    if(navigator.clipboard&&navigator.clipboard.writeText){
-        navigator.clipboard.writeText(text).then(done,()=>legacyCopy(text,done));
-    }else legacyCopy(text,done);
-}
-function legacyCopy(text,cb){
-    const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';
+async function share(){const text=songText();
+    if(navigator.share){try{await navigator.share({title:'Our Camp Bounce Song',text});return;}
+        catch(e){if(e&&e.name==='AbortError')return;}}copy();}
+function copy(){const text=songText();const ok=()=>toast('Song copied — paste it in a text or email 💌');
+    if(navigator.clipboard&&navigator.clipboard.writeText)
+        navigator.clipboard.writeText(text).then(ok,()=>legacy(text,ok));else legacy(text,ok);}
+function legacy(text,cb){const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';
     ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();
-    try{document.execCommand('copy');cb();}catch(e){alert(text);}
-    document.body.removeChild(ta);
-}
+    try{document.execCommand('copy');cb();}catch(e){alert(text);}document.body.removeChild(ta);}
 
 /* ===== MISC ===== */
-let tT;
-function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');
+let tT;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');
     clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),1700);}
-function celebrate(){
-    const c=document.getElementById('confetti');const cols=['#FF6B4A','#FFB23E','#2FA76B','#3FA9F5','#FF9A2E'];
-    for(let i=0;i<70;i++){const s=document.createElement('i');
-        s.style.left=Math.random()*100+'vw';
-        s.style.background=cols[i%cols.length];
-        s.style.animationDuration=(2.6+Math.random()*2)+'s';
-        s.style.animationDelay=(Math.random()*.6)+'s';
-        s.style.transform='rotate('+Math.random()*360+'deg)';
-        c.appendChild(s);setTimeout(()=>s.remove(),5200);}
-    toast('Hooray! Your song is finished 🎉');
-}
-function addVerse(){
-    state.verses.push({id:nextId++,name:`Verse ${state.verses.length+1}`,
-        slots:[null,null,FIXED,null,null,null]});
-    save();render();
-    setTimeout(()=>document.querySelector('.add-verse').scrollIntoView({behavior:'smooth',block:'center'}),60);
-}
+function celebrate(){const c=document.getElementById('confetti'),
+    cols=['#FF6B4A','#FFB23E','#2FA76B','#3FA9F5','#7A5CC4'];
+    for(let i=0;i<70;i++){const s=document.createElement('i');s.style.left=Math.random()*100+'vw';
+        s.style.background=cols[i%cols.length];s.style.animationDuration=(2.6+Math.random()*2)+'s';
+        s.style.animationDelay=(Math.random()*.6)+'s';s.style.transform='rotate('+Math.random()*360+'deg)';
+        c.appendChild(s);setTimeout(()=>s.remove(),5200);}toast('Hooray! The whole song is finished 🎉');}
 
-/* ===== EVENTS (delegated — touch friendly) ===== */
+/* ===== EVENTS ===== */
 document.addEventListener('click',e=>{
-    const el=e.target.closest('[data-act]');if(!el)return;
-    const a=el.dataset.act;
-    if(a==='choose')openChooser(+el.dataset.vi,+el.dataset.si);
-    else if(a==='close-chooser'||a==='close-x')closeChooser();
+    const el=e.target.closest('[data-act]');if(!el)return;const a=el.dataset.act;
+    if(a==='choose')openChooser(+el.dataset.bi,+el.dataset.si);
+    else if(a==='close-chooser')closeChooser();
     else if(a==='pick')pick(window._opts[+el.dataset.idx]);
     else if(a==='blank')blank();
-    else if(a==='next'){if(!scrollToNextEmpty(true))openBook();}
+    else if(a==='mode-all')setMode(false);
+    else if(a==='mode-rhyme')setMode(true);
+    else if(a==='pick-LOW')openLib('LOW');
+    else if(a==='pick-DROP')openLib('DROP');
+    else if(a==='pick-OUTRO')openLib('OUTRO');
+    else if(a==='add-lib')addLib(+el.dataset.ix);
+    else if(a==='close-lib')closeLib();
+    else if(a==='del'){const i=+el.dataset.bi;
+        if(confirm(`Remove “${state.blocks[i].name}”?`)){state.blocks.splice(i,1);save();render();}}
+    else if(a==='next'){if(!scrollNext(true))openBook();}
     else if(a==='open-book')openBook();
     else if(a==='close-book')closeBook();
     else if(a==='share')share();
     else if(a==='copy')copy();
     else if(a==='print')window.print();
-    else if(a==='add-verse')addVerse();
     else if(a==='dismiss-guide'){document.getElementById('guide').style.display='none';
         try{localStorage.setItem(GKEY,'1');}catch(_){}}
-    else if(a==='reset'){if(confirm('Start over? This clears the song on this device and brings back the first set of lines.')){
-        state=dflt();nextId=5;wasComplete=false;save();render();window.scrollTo({top:0,behavior:'smooth'});}}
+    else if(a==='reset'){if(!state.blocks.length||confirm('Clear the whole song? This empties it on this device.')){
+        state={v:4,blocks:[]};nextId=1;wasComplete=false;save();render();window.scrollTo({top:0,behavior:'smooth'});}}
 });
-document.addEventListener('change',e=>{
-    const el=e.target.closest('[data-act="rename"]');if(!el)return;
-    state.verses[+el.dataset.vi].name=el.value.trim()||('Verse '+(+el.dataset.vi+1));save();render();
-});
+document.addEventListener('change',e=>{const el=e.target.closest('[data-act="rename"]');if(!el)return;
+    state.blocks[+el.dataset.bi].name=el.value.trim()||'Section';save();render();});
 document.querySelectorAll('.backdrop').forEach(b=>b.addEventListener('click',e=>{
     if(e.target===b)b.classList.remove('open');}));
 
 /* ===== INIT ===== */
 state=load();
-nextId=Math.max(0,...state.verses.map(v=>v.id||0))+1;
+nextId=Math.max(0,...state.blocks.map(b=>b.id||0))+1;
 try{if(localStorage.getItem(GKEY)==='1')document.getElementById('guide').style.display='none';}catch(_){}
 render();
 </script>
