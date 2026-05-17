@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bounce '26 - Song Builder</title>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --success-bg: #c6f6d5;
+            --success-text: #22543d;
+            --danger-bg: #fed7d7;
+            --danger-text: #822727;
+            --accent: #4299e1;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            background-color: #f7fafc;
+            color: #2d3748;
+        }
+
+        nav {
+            background: var(--primary);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav .logo { font-weight: 900; letter-spacing: 1px; }
+        nav .links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        nav .links a.active { color: white; border-bottom: 2px solid white; padding-bottom: 4px; }
+
+        .toolbar {
+            background: white;
+            padding: 10px 2rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            position: sticky;
+            top: 55px;
+            z-index: 999;
+        }
+        .btn {
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.85rem;
+        }
+        .btn:hover { opacity: 0.85; transform: translateY(-1px); }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-add { background: var(--success-bg); color: var(--success-text); }
+        .btn-reset { background: var(--danger-bg); color: var(--danger-text); }
+        .saved-note { margin-left: auto; font-size: 0.8rem; color: #718096; }
+
+        .container { padding: 2rem; max-width: 1200px; margin: auto; }
+        h1 { margin-top: 0; }
+        .section-head { display:flex; align-items:baseline; gap:12px; border-bottom:2px solid #e2e8f0; padding-bottom:6px; margin: 2.5rem 0 1rem; }
+        .section-head h2 { margin:0; color: var(--primary); }
+        .section-head span { font-size:0.85rem; color:#718096; }
+
+        .instruction { background: #ebf8ff; padding: 10px 20px; border-radius: 6px; margin-bottom: 20px; border-left: 4px solid #3182ce; font-size: 0.9rem; }
+
+        /* Verse cards */
+        .verses { display:grid; grid-template-columns: repeat(auto-fill, minmax(320px,1fr)); gap:1.5rem; }
+        .verse {
+            background:white; border-radius:10px; padding:1.25rem 1.25rem 1rem;
+            box-shadow:0 4px 6px rgba(0,0,0,0.05); border-top:5px solid var(--accent);
+        }
+        .verse-top { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+        .verse-name {
+            font-weight:800; color:var(--primary); font-size:1.05rem;
+            border:none; background:transparent; width:100%; padding:2px 4px; border-radius:4px;
+        }
+        .verse-name:focus { outline:1px solid var(--accent); background:#f7fafc; }
+        .verse-del { background:var(--danger-bg); color:var(--danger-text); border:none; border-radius:4px; cursor:pointer; font-weight:bold; padding:4px 9px; }
+
+        .slot {
+            display:flex; align-items:flex-start; gap:8px; padding:7px 6px;
+            border-bottom:1px dashed #edf2f7; cursor:pointer; line-height:1.4;
+        }
+        .slot:hover { background:#f7fafc; }
+        .slot .meta { flex:0 0 30px; font-size:0.7rem; color:#a0aec0; padding-top:2px; }
+        .slot .text { flex:1; }
+        .slot.fixed { cursor:default; background:#f8fafc; }
+        .slot.fixed:hover { background:#f8fafc; }
+        .slot.empty .text { color:#a0aec0; opacity:0.55; font-style:italic; }
+        .slot .clear { color:#cbd5e0; font-weight:bold; visibility:hidden; }
+        .slot:hover .clear { visibility:visible; }
+        .slot .clear:hover { color:var(--danger-text); }
+        .rhyme-A { border-left:3px solid #f6ad55; }
+        .rhyme-B { border-left:3px solid #68d391; }
+        .rhyme-C { border-left:3px solid #63b3ed; }
+        .rhyme-F { border-left:3px solid #cbd5e0; }
+
+        /* Pools */
+        .pool-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1.25rem; }
+        .pool-col { background:white; border-radius:10px; padding:1rem 1.1rem; box-shadow:0 4px 6px rgba(0,0,0,0.05); }
+        .pool-col h3 { margin:0 0 4px; color:var(--primary); font-size:0.95rem; }
+        .pool-col .sub { font-size:0.72rem; color:#718096; margin-bottom:10px; }
+        .chip {
+            display:block; width:100%; text-align:left; background:#edf2f7; color:#2d3748;
+            border:none; border-radius:6px; padding:7px 10px; margin-bottom:6px; cursor:pointer;
+            font-size:0.85rem; transition:0.15s;
+        }
+        .chip:hover { background:var(--success-bg); color:var(--success-text); }
+        .chip.liked { background:#e6fffa; }
+        .chip.liked:hover { background:var(--success-bg); }
+        .chip small { color:#a0aec0; }
+
+        /* Modal */
+        .modal-bg {
+            position:fixed; inset:0; background:rgba(0,0,0,0.45); display:none;
+            align-items:center; justify-content:center; z-index:2000; padding:1rem;
+        }
+        .modal-bg.open { display:flex; }
+        .modal {
+            background:white; border-radius:10px; max-width:560px; width:100%;
+            max-height:82vh; display:flex; flex-direction:column;
+        }
+        .modal h3 { margin:0; padding:1rem 1.25rem; border-bottom:1px solid #e2e8f0; color:var(--primary); }
+        .modal .body { padding:1rem 1.25rem; overflow:auto; }
+        .modal .group-label { font-size:0.72rem; text-transform:uppercase; color:#a0aec0; font-weight:700; margin:14px 0 6px; }
+        .modal .group-label:first-child { margin-top:0; }
+        .modal .foot { padding:0.9rem 1.25rem; border-top:1px solid #e2e8f0; display:flex; gap:8px; }
+        .modal input[type=text] { flex:1; padding:8px 10px; border:1px solid #cbd5e0; border-radius:6px; font-size:0.9rem; }
+        footer { text-align:center; padding:2rem; font-size:0.8rem; color:#a0aec0; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo">CAMP BOUNCE 26</div>
+    <div class="links">
+        <a href="low-part.html">LOW PART</a>
+        <a href="high-part.html">HIGH PART</a>
+        <a href="drop-lines.html">DROP LINES</a>
+        <a href="song-builder.html" class="active">SONG BUILDER</a>
+    </div>
+</nav>
+
+<div class="toolbar">
+    <button class="btn btn-add" onclick="addVerse()">＋ Add Verse</button>
+    <button class="btn btn-primary" onclick="copySong()">Copy Full Song</button>
+    <button class="btn btn-reset" onclick="resetAll()">Reset to Default</button>
+    <span class="saved-note" id="saved-note">Saved automatically to this browser</span>
+</div>
+
+<div class="container">
+    <h1>Song Builder</h1>
+    <div class="instruction">
+        <strong>Free pool + slots.</strong> Build as many verses as you like. Click any slot to fill it
+        from your <em>liked phrases</em> or the <em>AI-generated candidate lines</em> — matched to that
+        slot's syllable count. Empty slots stay faded and are never auto-filled. Everything saves to this
+        browser and survives a reload.
+    </div>
+
+    <div class="section-head">
+        <h2>Your Draft</h2><span>Meter per verse: 7 · 7 · 5 (fixed) · 6 · 6 · 5</span>
+    </div>
+    <div class="verses" id="verses"></div>
+
+    <div class="section-head">
+        <h2>Liked Phrases Pool</h2><span>From bounce_low_part_eval.json — click a slot first, then a phrase</span>
+    </div>
+    <div class="pool-grid" id="liked-pool"></div>
+
+    <div class="section-head">
+        <h2>AI-Generated Candidate Lines</h2><span>New in-meter options to fill the slots your liked phrases don't cover</span>
+    </div>
+    <div class="pool-grid" id="ai-pool"></div>
+</div>
+
+<div class="modal-bg" id="modal-bg" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+        <h3 id="modal-title">Choose a line</h3>
+        <div class="body" id="modal-body"></div>
+        <div class="foot">
+            <input type="text" id="custom-input" placeholder="…or type your own line">
+            <button class="btn btn-add" onclick="useCustom()">Use</button>
+            <button class="btn btn-reset" onclick="clearSlot()">Leave Empty</button>
+        </div>
+    </div>
+</div>
+
+<footer>Camp Bounce Twenty-Six | Song Builder</footer>
+
+<script>
+/* ---------- DATA (inlined; static file:// safe) ---------- */
+const FIXED_LINE = "Camp Bounce Twenty-Six";
+
+// 6 slots: target syllables + rhyme group. Slot 2 is the fixed line.
+const SLOTS = [
+    { i:0, target:7, rhyme:"A", label:"7" },
+    { i:1, target:7, rhyme:"A", label:"7" },
+    { i:2, target:5, rhyme:"F", label:"5", fixed:true },
+    { i:3, target:6, rhyme:"B", label:"6" },
+    { i:4, target:6, rhyme:"B", label:"6" },
+    { i:5, target:5, rhyme:"C", label:"5" }
+];
+
+// Cleaned liked phrases (split on '/', trimmed, deduped) with hand-verified syllable counts.
+const LIKED = {
+    7: ["Summer fun will never end","Catch the action in the air","Ruach spreading everywhere",
+        "Mixing dough and baking treats","Put a smile upon your face","This is such a happy place",
+        "Watch the summer days go by","Give a cheer and give a try","Our excitement will not fail",
+        "Come along and join the fun","Every day we guess the theme","Happy faces every day",
+        "Staying refreshed, staying cool","Singing loud as we're able"],
+    6: ["Two words join together","Helping one another","Voices join together",
+        "Changing us forever","Lift each other higher","Cool off in the water"],
+    5: ["Best place you can be","Feel the energy","Having so much fun","Making memories",
+        "Give a giant cheer","Fueling up for fun","Playing in the sun","Brighten up your day",
+        "Success as a one","Sing it out again","Shout it loud and clear"]
+};
+
+// Generous AI-written candidate lines, in-meter (not truncated).
+const AI = {
+    7: ["Bounce boys cheering everywhere","Summer magic fills the air","Spirit rising like a flame",
+        "Camp Bounce glory, shout the name","Running fast across the field","Watch the power that we wield",
+        "Every day a brand new start","Camp Bounce living in our heart","Friendships here will never break",
+        "Memories that we will make","Davening to start the day","Torah lights us on our way",
+        "Jump and shout and never stop","Bouncing all the way to top","Hear the ruach all around",
+        "Camp Bounce makes the greatest sound","Sun is shining, skies are clear","Best camp summer of the year",
+        "Through the summer hand in hand","Greatest camp in all the land","Splashing in the pool today",
+        "Never wanna go away","Reaching higher, aiming far","Every camper is a star",
+        "Win or lose we give our all","Stand up proud and stand up tall","Sing it loud, we will prevail",
+        "Catch the wind and ride the trail"],
+    6: ["Growing up together","Friends through any weather","Reaching for the sky now",
+        "Showing campers how now","Cheering for each other","Treat him like a brother",
+        "Spirit never fading","Memories worth saving","Climbing ever higher",
+        "Lighting up the fire","Running through the meadow","Catching every echo",
+        "Marching to the beat now","Dancing on our feet now","Bouncing all day long now",
+        "Singing out our song now","Hearts are beating stronger","Stay a little longer",
+        "Holding on forever","Best camp ever, ever"],
+    5: ["Best camp you can find","Leave it all behind","Let the good times roll",
+        "Camp Bounce heart and soul","Summer never ends","Here with all my friends",
+        "Reach the highest peak","This is what we seek","Hear the campers cheer",
+        "Glad that we are here","Light it up tonight","Everything's alright",
+        "One team and one beat","Camp Bounce can't be beat","Spirit running wild",
+        "Happy like a child","Shout it to the sky","Bounce boys aiming high",
+        "Friends forevermore","Hear the summer roar"]
+};
+
+// Default seed verses (the finalized liked-phrase build).
+const SEED = [
+    { id:1, name:"Verse A — Opening", slots:["Put a smile upon your face","This is such a happy place",
+        FIXED_LINE,"Watch the summer days fly","Playing in the warm sun","Let the fun begin!"] },
+    { id:2, name:"Verse B — Action", slots:["Catch the action in the air","Ruach spreading everywhere",
+        FIXED_LINE,"Two words join together","Fun will never end now","Feel the energy!"] },
+    { id:3, name:"Verse C — Unity", slots:["Give a cheer and give a try","Helping out one another",
+        FIXED_LINE,"Lift each other higher","Standing as a one now","Shout it loud and clear"] },
+    { id:4, name:"Verse D — Excitement", slots:["Excitement will never fail","Sing it loud, we will prevail",
+        FIXED_LINE,"Voices join together","Changing us forever","Making memories"] }
+];
+
+/* ---------- STATE / PERSISTENCE ---------- */
+const KEY = "campBounce26.songBuilder.v1";
+let state, nextId, activeVerse = null, activeSlot = null;
+
+function defaultState(){ return { v:1, verses: JSON.parse(JSON.stringify(SEED)) }; }
+
+function loadState(){
+    try {
+        const raw = localStorage.getItem(KEY);
+        if(!raw) return defaultState();
+        const p = JSON.parse(raw);
+        if(!p || p.v !== 1 || !Array.isArray(p.verses)) return defaultState();
+        return p;
+    } catch(e){ return defaultState(); }
+}
+function saveState(){
+    try {
+        localStorage.setItem(KEY, JSON.stringify(state));
+        flashSaved();
+    } catch(e){
+        document.getElementById('saved-note').textContent = "⚠ Could not save (storage blocked)";
+    }
+}
+let savedTimer;
+function flashSaved(){
+    const n = document.getElementById('saved-note');
+    n.textContent = "✓ Saved";
+    clearTimeout(savedTimer);
+    savedTimer = setTimeout(()=>{ n.textContent = "Saved automatically to this browser"; }, 1500);
+}
+
+/* ---------- RENDER ---------- */
+function render(){
+    const wrap = document.getElementById('verses');
+    wrap.innerHTML = '';
+    state.verses.forEach((v, vi) => {
+        const card = document.createElement('div');
+        card.className = 'verse';
+        let rows = '';
+        SLOTS.forEach(s => {
+            const val = v.slots[s.i];
+            if(s.fixed){
+                rows += `<div class="slot fixed rhyme-${s.rhyme}">
+                    <span class="meta">${s.label}</span>
+                    <span class="text">${FIXED_LINE} <small style="color:#a0aec0">(fixed)</small></span></div>`;
+            } else if(val){
+                rows += `<div class="slot rhyme-${s.rhyme}" onclick="openModal(${vi},${s.i})">
+                    <span class="meta">${s.label}${s.rhyme}</span>
+                    <span class="text">${escapeHtml(val)}</span>
+                    <span class="clear" onclick="event.stopPropagation();clearSlotDirect(${vi},${s.i})">✕</span></div>`;
+            } else {
+                rows += `<div class="slot empty rhyme-${s.rhyme}" onclick="openModal(${vi},${s.i})">
+                    <span class="meta">${s.label}${s.rhyme}</span>
+                    <span class="text">＋ add ${s.target}-syllable line (rhyme ${s.rhyme})</span></div>`;
+            }
+        });
+        card.innerHTML = `
+            <div class="verse-top">
+                <input class="verse-name" value="${escapeHtml(v.name)}"
+                    onchange="renameVerse(${vi}, this.value)">
+                <button class="verse-del" onclick="delVerse(${vi})" title="Delete verse">✕</button>
+            </div>${rows}`;
+        wrap.appendChild(card);
+    });
+    renderPools();
+}
+
+function renderPools(){
+    const liked = document.getElementById('liked-pool');
+    const ai = document.getElementById('ai-pool');
+    const cols = [
+        {syl:7, t:"7-syllable", role:"Lines 1 & 2 (rhyme A)"},
+        {syl:6, t:"6-syllable", role:"Lines 4 & 5 (rhyme B)"},
+        {syl:5, t:"5-syllable", role:"Line 6 closing (rhyme C)"}
+    ];
+    liked.innerHTML = cols.map(c => poolCol(c, LIKED[c.syl], true)).join('');
+    ai.innerHTML    = cols.map(c => poolCol(c, AI[c.syl],   false)).join('');
+}
+function poolCol(c, list, isLiked){
+    const items = list.map(p =>
+        `<button class="chip ${isLiked?'liked':''}" onclick="poolPick('${jsAttr(p)}',${c.syl})">${escapeHtml(p)}</button>`
+    ).join('');
+    return `<div class="pool-col"><h3>${c.t}</h3><div class="sub">${c.role} · ${list.length} options</div>${items}</div>`;
+}
+
+/* ---------- ACTIONS ---------- */
+function openModal(vi, si){
+    activeVerse = vi; activeSlot = si;
+    const s = SLOTS[si];
+    document.getElementById('modal-title').textContent =
+        `${state.verses[vi].name} — Line ${si+1} (${s.target} syllables, rhyme ${s.rhyme})`;
+    const likedList = (LIKED[s.target]||[]);
+    const aiList = (AI[s.target]||[]);
+    const mk = arr => arr.map(p =>
+        `<button class="chip" onclick="assign('${jsAttr(p)}')">${escapeHtml(p)}</button>`).join('');
+    document.getElementById('modal-body').innerHTML =
+        `<div class="group-label">Your liked phrases (${likedList.length})</div>${mk(likedList)||'<em>None at this length</em>'}
+         <div class="group-label">AI-generated candidates (${aiList.length})</div>${mk(aiList)}`;
+    document.getElementById('custom-input').value = '';
+    document.getElementById('modal-bg').classList.add('open');
+}
+function closeModal(){ document.getElementById('modal-bg').classList.remove('open'); }
+function assign(text){
+    state.verses[activeVerse].slots[activeSlot] = text;
+    saveState(); render(); closeModal();
+}
+function useCustom(){
+    const t = document.getElementById('custom-input').value.trim();
+    if(t) assign(t);
+}
+function clearSlot(){
+    state.verses[activeVerse].slots[activeSlot] = null;
+    saveState(); render(); closeModal();
+}
+function clearSlotDirect(vi, si){
+    state.verses[vi].slots[si] = null; saveState(); render();
+}
+function poolPick(text, syl){
+    if(activeVerse===null || activeSlot===null){
+        alert("Click a slot in a verse first, then pick a phrase to fill it.");
+        return;
+    }
+    if(SLOTS[activeSlot].target !== syl){
+        if(!confirm(`That line is ${syl} syllables but the selected slot expects ${SLOTS[activeSlot].target}. Use it anyway?`)) return;
+    }
+    state.verses[activeVerse].slots[activeSlot] = text;
+    saveState(); render();
+}
+function addVerse(){
+    state.verses.push({ id:nextId++, name:`Verse ${String.fromCharCode(64+state.verses.length+1)}`,
+        slots:[null,null,FIXED_LINE,null,null,null] });
+    saveState(); render();
+}
+function delVerse(vi){
+    if(confirm(`Delete "${state.verses[vi].name}"?`)){
+        state.verses.splice(vi,1); activeVerse=null; activeSlot=null; saveState(); render();
+    }
+}
+function renameVerse(vi, name){ state.verses[vi].name = name; saveState(); }
+function resetAll(){
+    if(confirm("Reset to the default 4-verse build? This erases your saved changes in this browser.")){
+        state = defaultState(); activeVerse=null; activeSlot=null; saveState(); render();
+    }
+}
+function copySong(){
+    const text = state.verses.map(v =>
+        v.name + "\n" + v.slots.map(x => x ? x : "______").join("\n")
+    ).join("\n\n");
+    navigator.clipboard.writeText(text).then(
+        ()=>{ const n=document.getElementById('saved-note'); n.textContent="✓ Song copied to clipboard";
+              clearTimeout(savedTimer); savedTimer=setTimeout(()=>n.textContent="Saved automatically to this browser",1800); },
+        ()=> alert("Copy failed — select the text manually:\n\n"+text)
+    );
+}
+
+/* ---------- UTIL ---------- */
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function jsAttr(s){ return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
+
+window.onload = function(){
+    state = loadState();
+    nextId = Math.max(0, ...state.verses.map(v=>v.id||0)) + 1;
+    render();
+};
+</script>
+
+</body>
+</html>
