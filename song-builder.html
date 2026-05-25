@@ -144,7 +144,7 @@
         align-items:flex-end;justify-content:center;}
     .backdrop.open{display:flex;}
     .sheet,.book{background:var(--cream);width:100%;max-width:620px;max-height:94vh;
-        border-radius:26px 26px 0 0;display:flex;flex-direction:column;
+        border-radius:26px 26px 0 0;display:flex;flex-direction:column;overflow:hidden;
         animation:slideup .26s cubic-bezier(.2,.8,.2,1);}
     @keyframes slideup{from{transform:translateY(100%)}to{transform:translateY(0)}}
     .sheet-head{padding:18px 20px 6px;display:flex;align-items:flex-start;gap:10px;}
@@ -161,7 +161,8 @@
     .toggle button{flex:1;border:none;background:none;font:inherit;font-weight:800;font-size:.88rem;
         padding:9px;border-radius:9px;cursor:pointer;color:var(--ink-soft);}
     .toggle button.on{background:#fff;color:var(--ink);box-shadow:var(--shadow-sm);}
-    .sheet-body{overflow:auto;padding:8px 20px 4px;-webkit-overflow-scrolling:touch;}
+    .sheet-body{flex:1 1 0;min-height:0;overflow-y:auto;overflow-x:hidden;padding:8px 20px 4px;
+        -webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
     .opt-group{font-family:'Fredoka',sans-serif;font-weight:600;font-size:.95rem;color:var(--ink-soft);
         margin:16px 2px 7px;}
     .opt-group:first-child{margin-top:4px;}
@@ -191,7 +192,8 @@
     .lib-card .pl.b{color:#C9B894;font-style:italic;font-weight:600;}
     .lib-card .add{margin-top:10px;font-weight:800;color:var(--grass);font-size:.9rem;}
 
-    .book-scroll{overflow:auto;padding:4px 20px 8px;}
+    .book-scroll{flex:1 1 0;min-height:0;overflow-y:auto;overflow-x:hidden;padding:4px 20px 8px;
+        -webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
     .book h2{font-family:'Fredoka',sans-serif;text-align:center;font-size:1.5rem;margin:16px 0 2px;}
     .book .sub{text-align:center;color:var(--ink-soft);font-weight:700;margin:0 0 14px;font-size:.9rem;}
     .bk-block{background:#fff;border-radius:16px;padding:14px 16px;margin-bottom:12px;box-shadow:var(--shadow-sm);}
@@ -230,6 +232,35 @@
     .custom-error .err-text{flex:1;min-width:0;}
     .custom-override{background:var(--coral);color:#fff;border:none;font:inherit;font-weight:800;
         padding:7px 12px;border-radius:8px;cursor:pointer;font-size:.78rem;white-space:nowrap;}
+    .thes{margin-top:10px;padding-top:10px;border-top:1px dashed #EFE2CB;}
+    .thes-toggle{width:100%;background:none;border:none;font:inherit;font-weight:800;font-size:.88rem;
+        color:var(--coral-deep);text-align:left;cursor:pointer;padding:4px 0;display:flex;
+        align-items:center;justify-content:space-between;gap:8px;}
+    .thes-toggle .chev{transition:transform .2s;font-size:.7rem;color:var(--ink-soft);}
+    .thes-panel.open + .thes-toggle .chev,.thes-toggle.open .chev{transform:rotate(180deg);}
+    .thes-panel{display:none;margin-top:8px;}
+    .thes-panel.open{display:block;}
+    .thes-search{display:flex;gap:6px;}
+    .thes-search input{flex:1;border:2px solid #EFE2CB;border-radius:10px;padding:9px 11px;
+        font:inherit;font-weight:700;font-size:.95rem;color:var(--ink);box-sizing:border-box;min-width:0;}
+    .thes-search input:focus{outline:none;border-color:var(--coral);}
+    .thes-tabs{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap;}
+    .thes-tab{flex:1 1 auto;min-width:0;border:none;background:#EFE3CE;color:var(--ink-soft);
+        font:inherit;font-weight:800;font-size:.78rem;padding:8px 6px;border-radius:9px;cursor:pointer;
+        white-space:nowrap;}
+    .thes-tab.on{background:var(--coral);color:#fff;}
+    .thes-results{margin-top:8px;max-height:170px;overflow-y:auto;overflow-x:hidden;
+        -webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+        display:flex;flex-wrap:wrap;gap:5px;padding:8px;border:1px dashed #EFE2CB;border-radius:10px;
+        background:#FFFCF6;min-height:46px;align-content:flex-start;}
+    .thes-results:empty::before{content:"Pick a tab above to find word ideas";color:var(--ink-soft);
+        font-weight:700;font-size:.82rem;width:100%;text-align:center;align-self:center;}
+    .thes-word{background:#fff;border:1px solid #EFE2CB;border-radius:999px;padding:5px 11px;
+        font:inherit;font-weight:700;font-size:.88rem;color:var(--ink);cursor:pointer;line-height:1.2;}
+    .thes-word:hover,.thes-word:active{background:var(--grass-soft);border-color:var(--grass);color:var(--grass);}
+    .thes-status{width:100%;color:var(--ink-soft);font-weight:700;font-size:.82rem;text-align:center;padding:6px;}
+    .thes-status.err{color:var(--coral-deep);}
+
     .or-divider{text-align:center;margin:14px 20px 6px;position:relative;}
     .or-divider::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:#E3D4B6;}
     .or-divider span{background:var(--cream);padding:0 12px;position:relative;color:var(--ink-soft);
@@ -386,6 +417,26 @@
             <div class="custom-error" id="customError" style="display:none">
                 <span class="err-text"></span>
                 <button class="custom-override" data-act="save-custom-anyway">Save anyway</button>
+            </div>
+            <div class="thes">
+                <button type="button" class="thes-toggle" id="thesToggle" data-act="thes-toggle"
+                    aria-expanded="false" aria-controls="thesPanel">
+                    <span>🔍 Find words — rhymes, synonyms, sound-alikes</span><span class="chev">▼</span>
+                </button>
+                <div class="thes-panel" id="thesPanel">
+                    <div class="thes-search">
+                        <input id="thesInput" type="text" placeholder="Type a word, e.g. fun"
+                            autocomplete="off" autocapitalize="off" spellcheck="false"
+                            inputmode="text" enterkeyhint="search">
+                    </div>
+                    <div class="thes-tabs" role="tablist">
+                        <button type="button" class="thes-tab on" data-act="thes-go" data-kind="rhy">✨ Rhymes</button>
+                        <button type="button" class="thes-tab" data-act="thes-go" data-kind="ml">💭 Means like</button>
+                        <button type="button" class="thes-tab" data-act="thes-go" data-kind="sl">🔊 Sounds like</button>
+                        <button type="button" class="thes-tab" data-act="thes-go" data-kind="trg">🔗 Related</button>
+                    </div>
+                    <div class="thes-results" id="thesResults" aria-live="polite"></div>
+                </div>
             </div>
         </div>
         <div class="or-divider"><span>or pick from ideas</span></div>
@@ -787,6 +838,7 @@ function openChooser(bi,si){
     const tg=document.getElementById('chToggle');
     if(cur.partner){tg.style.display='flex';setMode(false);}else{tg.style.display='none';}
     renderOpts();
+    thesReset();
     document.getElementById('chooser').classList.add('open');
 }
 /* The syllable counter is a heuristic — it tends to overcount words like
@@ -834,6 +886,85 @@ function clearCustom(){
     updateSylFeedback();
     document.getElementById('customLine').focus();
 }
+/* ===== THESAURUS (Datamuse — free, no key) =====
+   rel_rhy = perfect rhymes; ml = means like (synonyms-ish);
+   sl = sounds like (fuzzy phonetic); rel_trg = topical "triggers" */
+const THES_PARAM={rhy:'rel_rhy',ml:'ml',sl:'sl',trg:'rel_trg'};
+let thesAbort=null,thesKind='rhy';
+function thesReset(){
+    document.getElementById('thesPanel').classList.remove('open');
+    document.getElementById('thesToggle').classList.remove('open');
+    document.getElementById('thesToggle').setAttribute('aria-expanded','false');
+    document.getElementById('thesResults').innerHTML='';
+    document.getElementById('thesInput').value='';
+    thesKind='rhy';
+    document.querySelectorAll('.thes-tab').forEach(b=>b.classList.toggle('on',b.dataset.kind==='rhy'));
+}
+function thesToggle(){
+    const p=document.getElementById('thesPanel'),t=document.getElementById('thesToggle');
+    const open=!p.classList.contains('open');
+    p.classList.toggle('open',open);
+    t.classList.toggle('open',open);
+    t.setAttribute('aria-expanded',open?'true':'false');
+    if(open){
+        const ti=document.getElementById('thesInput');
+        // prefill from the last word of the textarea if empty
+        if(!ti.value){
+            const cur=document.getElementById('customLine').value.trim();
+            const partner=cur_partner_word();
+            const last=cur?cur.split(/\s+/).pop().replace(/[^a-zA-Z']/g,''):'';
+            ti.value=last||partner||'';
+        }
+        setTimeout(()=>ti.focus(),60);
+    }
+}
+function cur_partner_word(){
+    if(cur.partner){
+        const lw=String(cur.partner).trim().split(/\s+/).pop().replace(/[^a-zA-Z']/g,'');
+        return lw||'';
+    }
+    return '';
+}
+async function thesGo(kind){
+    thesKind=kind;
+    document.querySelectorAll('.thes-tab').forEach(b=>b.classList.toggle('on',b.dataset.kind===kind));
+    const w=document.getElementById('thesInput').value.trim();
+    const res=document.getElementById('thesResults');
+    if(!w){res.innerHTML='<div class="thes-status">Type a word first ✍️</div>';return;}
+    res.innerHTML='<div class="thes-status">Looking up ideas…</div>';
+    if(thesAbort)thesAbort.abort();
+    thesAbort=(typeof AbortController!=='undefined')?new AbortController():null;
+    const url=`https://api.datamuse.com/words?${THES_PARAM[kind]}=${encodeURIComponent(w)}&max=80`;
+    try{
+        const r=await fetch(url,thesAbort?{signal:thesAbort.signal}:{});
+        if(!r.ok)throw new Error('http '+r.status);
+        const data=await r.json();
+        if(!Array.isArray(data)||!data.length){
+            res.innerHTML=`<div class="thes-status">No ideas for &ldquo;${esc(w)}&rdquo; — try a simpler word.</div>`;return;
+        }
+        res.innerHTML=data.slice(0,80).map(d=>
+            `<button type="button" class="thes-word" data-act="thes-pick" data-word="${esc(d.word)}">${esc(d.word)}</button>`
+        ).join('');
+        res.scrollTop=0;
+    }catch(e){
+        if(e&&e.name==='AbortError')return;
+        res.innerHTML='<div class="thes-status err">Couldn&rsquo;t reach the dictionary. Check your connection and try again.</div>';
+    }
+}
+function thesPick(word){
+    const ta=document.getElementById('customLine');
+    const s=ta.selectionStart??ta.value.length,e=ta.selectionEnd??ta.value.length,v=ta.value;
+    let pre=v.slice(0,s),post=v.slice(e);
+    if(pre&&!/\s$/.test(pre))pre+=' ';
+    if(post&&!/^\s/.test(post)&&!/^[.,!?;:]/.test(post))post=' '+post;
+    ta.value=pre+word+post;
+    const car=pre.length+word.length;
+    ta.focus();
+    try{ta.setSelectionRange(car,car);}catch(_){}
+    updateSylFeedback();
+    toast(`Added "${word}" ✨`);
+}
+
 function setMode(r){rhymeOnly=r;
     document.querySelector('[data-act="mode-all"]').classList.toggle('on',!r);
     document.querySelector('[data-act="mode-rhyme"]').classList.toggle('on',r);
@@ -924,6 +1055,9 @@ document.addEventListener('click',e=>{
     else if(a==='clear-custom')clearCustom();
     else if(a==='mode-all')setMode(false);
     else if(a==='mode-rhyme')setMode(true);
+    else if(a==='thes-toggle')thesToggle();
+    else if(a==='thes-go')thesGo(el.dataset.kind);
+    else if(a==='thes-pick')thesPick(el.dataset.word);
     else if(a==='pick-LOW')openLib('LOW');
     else if(a==='pick-DROP')openLib('DROP');
     else if(a==='pick-OUTRO')openLib('OUTRO');
@@ -947,6 +1081,9 @@ document.addEventListener('click',e=>{
 document.addEventListener('change',e=>{const el=e.target.closest('[data-act="rename"]');if(!el)return;
     state.blocks[+el.dataset.bi].name=el.value.trim()||'Section';save();render();});
 document.addEventListener('input',e=>{if(e.target&&e.target.id==='customLine')updateSylFeedback();});
+document.addEventListener('keydown',e=>{
+    if(e.target&&e.target.id==='thesInput'&&e.key==='Enter'){e.preventDefault();thesGo(thesKind);}
+});
 document.querySelectorAll('.backdrop').forEach(b=>b.addEventListener('click',e=>{
     if(e.target===b)b.classList.remove('open');}));
 
