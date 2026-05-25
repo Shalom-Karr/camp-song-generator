@@ -201,6 +201,36 @@
     .b-soft{background:#fff;color:var(--ink);box-shadow:var(--shadow-sm);}
     .b-close{background:none;color:var(--ink-soft);text-decoration:underline;box-shadow:none;}
 
+    .write-own{margin:8px 20px 4px;background:#fff;border:2px solid #FFE3BD;border-radius:14px;padding:12px 14px;}
+    .write-own label{display:block;font-weight:800;font-size:.82rem;margin-bottom:6px;color:var(--coral-deep);letter-spacing:.3px;}
+    .write-own textarea{width:100%;border:2px solid #EFE2CB;border-radius:10px;padding:10px 12px;font:inherit;
+        font-weight:700;font-size:1rem;resize:vertical;min-height:46px;color:var(--ink);box-sizing:border-box;}
+    .write-own textarea:focus{outline:none;border-color:var(--coral);}
+    .syl-feedback{display:flex;align-items:center;justify-content:space-between;margin-top:7px;
+        font-weight:700;font-size:.82rem;color:var(--ink-soft);gap:8px;flex-wrap:wrap;}
+    .syl-badge{padding:3px 9px;border-radius:999px;font-size:.74rem;font-weight:800;}
+    .syl-badge.ok{background:var(--grass-soft);color:var(--grass);}
+    .syl-badge.warn{background:#FFEFD9;color:var(--sun-deep);}
+    .syl-badge.err{background:#FCDFD9;color:var(--coral-deep);}
+    .custom-buttons{display:flex;gap:8px;margin-top:9px;}
+    .custom-buttons .custom-save{flex:1;background:var(--grass);color:#fff;border:none;font:inherit;
+        font-family:'Fredoka',sans-serif;font-weight:600;padding:11px;border-radius:10px;cursor:pointer;font-size:.95rem;}
+    .custom-buttons .custom-clear{background:#F3E7E5;color:var(--ink-soft);border:none;font:inherit;
+        font-weight:700;padding:11px 14px;border-radius:10px;cursor:pointer;font-size:.9rem;}
+    .custom-error{margin-top:8px;padding:10px 12px;background:#FCDFD9;color:var(--coral-deep);border-radius:10px;
+        font-size:.85rem;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .custom-error .err-text{flex:1;min-width:0;}
+    .custom-override{background:var(--coral);color:#fff;border:none;font:inherit;font-weight:800;
+        padding:7px 12px;border-radius:8px;cursor:pointer;font-size:.78rem;white-space:nowrap;}
+    .or-divider{text-align:center;margin:14px 20px 6px;position:relative;}
+    .or-divider::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:#E3D4B6;}
+    .or-divider span{background:var(--cream);padding:0 12px;position:relative;color:var(--ink-soft);
+        font-weight:700;font-size:.82rem;}
+    .line.outro-start{border-top:3px dashed #E3D4B6;}
+    .line.outro-start .cue::after{content:" · outro";color:var(--sky);font-weight:800;font-size:.7rem;letter-spacing:.5px;}
+    .empty-state .btn-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+    .empty-state .btn-row .add-btn{flex:0 1 220px;}
+
     .toast{position:fixed;left:50%;bottom:108px;transform:translateX(-50%) translateY(20px);
         background:var(--ink);color:#fff;font-weight:800;padding:11px 20px;border-radius:999px;z-index:200;
         opacity:0;transition:.3s;pointer-events:none;font-size:.92rem;max-width:90vw;text-align:center;}
@@ -296,6 +326,23 @@
         <div class="sheet-head"><h2 id="chTitle">Pick a line</h2>
             <button class="sheet-x" data-act="close-chooser" aria-label="Close">✕</button></div>
         <div class="sheet-hint" id="chHint"></div>
+        <div class="write-own">
+            <label for="customLine">✍️ Write your own words</label>
+            <textarea id="customLine" rows="2" placeholder="Type your line here…"></textarea>
+            <div class="syl-feedback">
+                <span id="sylInfo">Target: — syllables</span>
+                <span id="sylBadge" class="syl-badge"></span>
+            </div>
+            <div class="custom-buttons">
+                <button class="custom-save" data-act="save-custom">💛 Use my words</button>
+                <button class="custom-clear" data-act="clear-custom">Clear</button>
+            </div>
+            <div class="custom-error" id="customError" style="display:none">
+                <span class="err-text"></span>
+                <button class="custom-override" data-act="save-custom-anyway">Save anyway</button>
+            </div>
+        </div>
+        <div class="or-divider"><span>or pick from ideas</span></div>
         <div class="toggle" id="chToggle" style="display:none">
             <button data-act="mode-all" class="on">All ideas</button>
             <button data-act="mode-rhyme">✨ Just rhymes</button>
@@ -328,13 +375,39 @@
 const FIXED="Camp Bounce Twenty-Six";
 const CUES={
  LOW:["Veloy nesato Hashem","Legoyei ha'aratzos","Loy loy nesato","Ki l'Yisroel amcha","Nesato b'ahava","L'amcha nesato"],
- DROP:["Bum bum bum","Asher bum bum bum","L'Yisroel amcha nesato b'ahava","Bum bum bum","Asher bum bum bum","Lezera Yaakov asher bam bacharta"],
- OUTRO:["Bum bum bum","Asher bum bum bum","Bum bum bum","Asher bum bum bum","Two words, one big sound","Camp Bounce is alive now"]
+ DROP:[
+   "Bum bum bum","Asher bum bum bum","Bum bum bum bum bum","Lezera Yaakov",
+   "Bum bum bum","Asher bum bum bum","Bum bum bum bum bum","Lezera Yaakov asher bam bacharta",
+   "Bridge — call","Bridge — answer","Bridge — call","Bridge — answer"
+ ],
+ OUTRO:["Final 1","Final 2","Final 3","Final 4"]
 };
 const DEF={
- LOW:[{t:7,r:"A",k:"long"},{t:7,r:"A",k:"long"},{fixed:true},{t:6,r:"B",k:"med"},{t:6,r:"B",k:"med"},{t:5,r:"C",k:"short"}],
- DROP:[{p:"hook",k:"chant"},{p:"mid",k:"cheer"},{p:"long",r:"D",k:"big"},{p:"hook",k:"chant"},{p:"mid",k:"cheer"},{p:"long",r:"D",k:"big"}],
- OUTRO:[{p:"hook",k:"chant"},{p:"mid",k:"cheer"},{p:"hook",k:"chant"},{p:"mid",k:"cheer"},{t:5,k:"short"},{t:5,k:"short"}]
+ LOW:[
+   {t:7,r:"A",k:"long"},{t:7,r:"A",k:"long"},
+   {fixed:true,t:5},
+   {t:6,r:"B",k:"med"},{t:6,r:"B",k:"med"},{t:5,r:"C",k:"short"}
+ ],
+ DROP:[
+   {t:8,p:"hook",k:"chant"},
+   {t:10,p:"mid",k:"big"},
+   {t:8,p:"chant",k:"chant"},
+   {t:6,r:"F",p:"endA",k:"med"},
+   {t:8,p:"hook",k:"chant"},
+   {t:10,p:"mid",k:"big"},
+   {t:8,p:"chant",k:"chant"},
+   {t:12,r:"F",p:"endB",k:"big"},
+   {t:8,p:"outro",k:"med",outro:true},
+   {t:11,p:"outro",k:"big",outro:true},
+   {t:8,r:"G",p:"outro",k:"med",outro:true},
+   {t:10,r:"G",p:"outro",k:"big",outro:true}
+ ],
+ OUTRO:[
+   {t:9,r:"H",k:"big"},
+   {t:10,k:"big"},
+   {t:8,r:"H",k:"big"},
+   {t:9,k:"big"}
+ ]
 };
 const KINDWORD={long:"a longer line",med:"a medium line",short:"a short line",
     chant:"a quick chant (very short)",cheer:"a short cheer",big:"the big shout-out line (nice and long)"};
@@ -367,46 +440,118 @@ const LONGS_OTHER=["Baseball, kickball, home run, field day, playing on the gras
 const LIKED_MID=["Shout it loud and clear","Let’s hear everyone","Turn two into one","Double all the fun","Ruach in the air","Give it your all"];
 const LIKED_LONG=["Waterslides and baseball games, the ruach’s always here","Singing loud and jumping high until the day is done","Compound words and action packed, the summer has begun","We won’t stop the energy until the summer’s done","Best counselors and campers here in all the summer land","This is where the summer fun is never gonna end","Come along and join the fun, we’re coming out to play"];
 
-/* ===== PRE-CHOSEN LIBRARY (you pick one of these when you add) =====
-   Verses are rhyme-built from your liked phrases. Where no liked phrase
-   rhymed, the line is left blank on purpose (null) — never forced. */
-const CB="Camp Bounce boys", SH="Shout it loud and clear";
+/* ===== DEFAULT LYRICS (the prefilled song + library options) =====
+   name in LOW_VERSES is the SHORT description; the prefill uses
+   `Verse N — short` and the library adds the verse number too. */
+const LOW_VERSES=[
+ {short:"Ruach",
+  slots:["Come along and join the fun","Excitement here for everyone",FIXED,
+         "Feel the ruach in the air","Cheering, singing everywhere","Summer 26"]},
+ {short:"Davening & middos",
+  slots:["Geshmake davening every day","Exceptional middos on display",FIXED,
+         "Fueling up for (all the) fun","Camp Bounce is (the) number one","Ready set lets go"]},
+ {short:"Activities",
+  slots:["Crafts, trips, baking, water fun","Sports oh wow it’s a home run",FIXED,
+         "See the smile on my face","Camp Bounce is my happy place","Summer 26"]},
+ {short:"Together",
+  slots:["Reaching higher, aiming far","Every camper is a star",FIXED,
+         "Standing all together","Memories forever","Feel the energy"]}
+];
+const DROP_DEFAULT={
+ name:"The Drop — Bounce bounce bounce",
+ slots:[
+  "Bounce bounce bounce way up in the air",
+  "Camp Bounce boys let’s hear you loud and clear",
+  "Flip spin jump 54321",
+  "Here the fun is never done",
+  "Bounce bounce bounce way up in the air",
+  "Camp Bounce boys let’s hear you loud and clear",
+  "Flip spin jump 54321",
+  "Here the fun is never done — it’s only just begun",
+  "What, what, what is the theme today?",
+  "Call the hotline press 4 for a hint plus more",
+  "Compound words: join two into one",
+  "For a summer packed with double the fun"
+ ]
+};
+const OUTRO_DEFAULT={
+ name:"Ending — Camp Bounce 26",
+ slots:[
+  "Camp Bounce boys we are ready to play",
+  "Sunshine-filled days packed with action and fun",
+  "Camp Bounce boys we are here to stay",
+  "Summer ’26 — so much in store"
+ ]
+};
+
+/* ===== LIBRARY (what shows up when user taps “＋ Add a …”) ===== */
 const LIBRARY={
  LOW:[
-  {tag:"rhymes",name:"Opening — “face / place”",
-   slots:["Put a smile upon your face","This is such a happy place",FIXED,"Voices join together","Changing us forever","Having so much fun"]},
-  {tag:"rhymes",name:"Action — “by / try”",
-   slots:["Watch the summer days go by","Give a cheer and give a try",FIXED,"Two words join together","Helping one another","Playing in the sun"]},
-  {tag:"rhymes",name:"Ruach — “air / everywhere”",
-   slots:["Catch the action in the air","Ruach spreading everywhere",FIXED,"Lift each other higher",null,"Fueling up for fun"]},
-  {tag:"part",name:"Excitement — has blanks",
-   slots:["Our excitement will not fail",null,FIXED,"Cool off in the water",null,"Success as a one"]},
+  ...LOW_VERSES.map(v=>({tag:"rhymes",name:v.short,slots:[...v.slots]})),
   {tag:"blank",name:"Blank verse — build it yourself",
    slots:[null,null,FIXED,null,null,null]}
  ],
  DROP:[
-  {tag:"rhymes",name:"Classic Drop — your favorite",
-   slots:[CB,SH,"Compound words and action packed, the summer has begun",CB,SH,"We won’t stop the energy until the summer’s done"]},
-  {tag:"rhymes",name:"Begun / fun drop",
-   slots:[CB,SH,"Playground, home run, waterslide, we’ve only just begun",CB,SH,"Friendship, sunshine, teamwork, ruach, having so much fun"]},
-  {tag:"blank",name:"Blank drop — pick the big lines",
-   slots:[CB,SH,null,CB,SH,null]}
+  {tag:"rhymes",name:DROP_DEFAULT.name,slots:[...DROP_DEFAULT.slots]},
+  {tag:"blank",name:"Blank drop — write your own",
+   slots:[null,null,null,null,null,null,null,null,null,null,null,null]}
  ],
  OUTRO:[
-  {tag:"rhymes",name:"Classic Ending",
-   slots:[CB,SH,CB,SH,"Two words, one big sound","Camp Bounce is alive now!"]}
+  {tag:"rhymes",name:OUTRO_DEFAULT.name,slots:[...OUTRO_DEFAULT.slots]},
+  {tag:"blank",name:"Blank ending — write your own",
+   slots:[null,null,null,null]}
  ]
 };
 
 /* ===== STATE ===== */
-const KEY="campBounce26.songBuilder.v4";
+const KEY="campBounce26.songBuilder.v5";
 const GKEY="campBounce26.songBuilder.guide";
-let state,nextId,cur={bi:null,si:null},wasComplete=false,libType=null,rhymeOnly=false;
+const PFKEY="campBounce26.songBuilder.prefilled";
+let state,nextId,cur={bi:null,si:null,partner:null,pIdx:null},wasComplete=false,
+    libType=null,rhymeOnly=false,pendingCustom=null;
 const clone=o=>JSON.parse(JSON.stringify(o));
-function load(){try{const r=localStorage.getItem(KEY);if(!r)return{v:4,blocks:[]};
-    const p=JSON.parse(r);if(!p||p.v!==4||!Array.isArray(p.blocks))return{v:4,blocks:[]};
-    return p;}catch(e){return{v:4,blocks:[]};}}
+function buildDefaultSong(){
+    let id=1;const blocks=[];
+    LOW_VERSES.forEach((v,i)=>blocks.push({id:id++,type:'LOW',name:`Verse ${i+1} — ${v.short}`,slots:[...v.slots]}));
+    blocks.push({id:id++,type:'DROP',name:DROP_DEFAULT.name,slots:[...DROP_DEFAULT.slots]});
+    blocks.push({id:id++,type:'OUTRO',name:OUTRO_DEFAULT.name,slots:[...OUTRO_DEFAULT.slots]});
+    return{v:5,blocks};
+}
+function load(){
+    try{
+        const r=localStorage.getItem(KEY);
+        if(!r){
+            // first ever load: prefill with the full default song
+            try{localStorage.setItem(PFKEY,'1');}catch(_){}
+            return buildDefaultSong();
+        }
+        const p=JSON.parse(r);
+        if(!p||p.v!==5||!Array.isArray(p.blocks))return buildDefaultSong();
+        return p;
+    }catch(e){return buildDefaultSong();}
+}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state));toast("Saved ✓");}catch(e){}}
+
+/* ===== SYLLABLE COUNTER (best-effort heuristic) ===== */
+function sylWord(w){
+    w=w.toLowerCase().replace(/[^a-z]/g,'');
+    if(!w)return 0;
+    if(w.length<=3)return 1;
+    // drop common silent endings
+    w=w.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/,'');
+    w=w.replace(/^y/,'');
+    const m=w.match(/[aeiouy]{1,2}/g);
+    return m?m.length:1;
+}
+function countSyllables(text){
+    if(!text)return 0;
+    // parenthesised words are sung as grace notes — don't count
+    let t=String(text).replace(/\([^)]*\)/g,' ');
+    // expand the numbers that show up in the lyrics so they count correctly
+    t=t.replace(/\b26\b/g,'twen ty six').replace(/\b54321\b/g,'five four three two one');
+    t=t.replace(/\b(\d+)\b/g,m=>m.split('').join(' '));
+    return t.split(/\s+/).filter(Boolean).reduce((s,w)=>s+sylWord(w),0);
+}
 
 /* ===== HELPERS ===== */
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -415,12 +560,25 @@ function rhymeKey(l){if(!l)return"";let w=String(l).trim().toLowerCase().split(/
 function rhymes(a,b){if(!a||!b)return false;const x=rhymeKey(a),y=rhymeKey(b);
     return !!x&&!!y&&(x===y||x.slice(-2)===y.slice(-2));}
 const defOf=b=>DEF[b.type];
+/* alternates for the new drop slot types so the chooser still has ideas */
+const ALT_CHANT=["Flip spin jump 54321","Run jump shout 54321","Bounce dive flip 54321","Hop skip jump 54321"];
+const ALT_ENDA=["Here the fun is never done","Camp Bounce can't be undone","Standing here, second to none","Summer fun for everyone"];
+const ALT_ENDB=["Here the fun is never done — it’s only just begun","Bounce boys never stop because we’ve only just begun","Summer fun goes on and on because we’ve just begun"];
+const ALT_BRIDGE=[
+    "What, what, what is the theme today?","What’s the camp that everyone wants to play?",
+    "Call the hotline press 4 for a hint plus more","Listen close because the answers are in store",
+    "Compound words: join two into one","Take two words and turn them into one",
+    "For a summer packed with double the fun","Doubling the energy and doubling the fun"
+];
 function poolFor(slot){
     if(slot.fixed)return null;
     if(slot.p==="hook")return[["Drop chant",HOOKS]];
     if(slot.p==="mid")return[["💛 From your picks",LIKED_MID],["More cheers",MIDS]];
-    if(slot.p==="long")return[["💛 From your picks",LIKED_LONG],["✨ More that rhyme",LONGS_UN],
-        ["🎬 Action lines",LONGS_A],["🧩 Word-list lines",LONGS_W],["Other endings",LONGS_OTHER]];
+    if(slot.p==="long"||slot.p==="endB")return[["💛 From your picks",LIKED_LONG],["✨ More that rhyme",LONGS_UN],
+        ["🎬 Action lines",LONGS_A],["🧩 Word-list lines",LONGS_W],["Other endings",LONGS_OTHER],["Drop endings",ALT_ENDB]];
+    if(slot.p==="chant")return[["Chants",ALT_CHANT]];
+    if(slot.p==="endA")return[["Short drop endings",ALT_ENDA]];
+    if(slot.p==="outro")return[["Bridge lines",ALT_BRIDGE]];
     return[["💛 Lines you loved",LIKED[slot.t]||[]],["✨ Fresh ideas",AI[slot.t]||[]]];
 }
 function counts(){let t=0,d=0;state.blocks.forEach(b=>defOf(b).forEach((s,i)=>{
@@ -433,9 +591,11 @@ function render(){
     if(!state.blocks.length){
         box.innerHTML=`<div class="empty-state"><div class="big">🎶</div>
             <h3>Your song is empty</h3>
-            <p>Tap “＋ Add a verse” to pick a ready-made verse to start with.</p>
-            <button class="add-btn solid" data-act="pick-LOW" style="max-width:260px;margin:0 auto;">＋ Add a verse</button>
-            </div>`;
+            <p>Fill it with the default song, or build from scratch.</p>
+            <div class="btn-row">
+                <button class="add-btn solid" data-act="prefill">✨ Fill with defaults</button>
+                <button class="add-btn" data-act="pick-LOW">＋ Add a verse</button>
+            </div></div>`;
     }else{
         box.innerHTML='';
         state.blocks.forEach((b,bi)=>{
@@ -446,8 +606,10 @@ function render(){
             let rows='';
             def.forEach((s,i)=>{
                 const cue=cues[i]||'',val=s.fixed?FIXED:b.slots[i];
-                const cls=s.fixed?'line fixed':(val?'line filled':'line empty');
-                const cta=s.fixed?'stays the same':(val?'tap to change':'choose ✏️');
+                const isOutroStart=s.outro&&(i===0||!def[i-1].outro);
+                let cls=s.fixed?'line fixed':(val?'line filled':'line empty');
+                if(isOutroStart)cls+=' outro-start';
+                const cta=s.fixed?'stays the same':(val?'tap to edit':'choose ✏️');
                 const numTxt=s.fixed?'🔒':(i+1);
                 const txt=s.fixed?FIXED:(val||'Tap to pick a line…');
                 const tag=s.fixed?'div':'button';
@@ -518,12 +680,18 @@ function addLib(ix){
 }
 
 /* ===== LINE CHOOSER ===== */
+function partnerIdx(s,si){
+    // siblings within a rhyme group within the same block — return the OTHER one
+    if(!s.r)return null;
+    const b=state.blocks[cur.bi],def=defOf(b);
+    for(let i=0;i<def.length;i++){if(i!==si&&def[i].r===s.r)return i;}
+    return null;
+}
 function openChooser(bi,si){
     const b=state.blocks[bi],s=defOf(b)[si];if(s.fixed)return;
-    cur={bi,si};rhymeOnly=false;
+    cur={bi,si,partner:null,pIdx:null};rhymeOnly=false;pendingCustom=null;
     document.getElementById('chTitle').textContent=`Line ${si+1} · ${esc(b.name)}`;
-    let pIdx=null;
-    if(s.r==="A")pIdx=(si===0?1:0);else if(s.r==="B")pIdx=(si===3?4:3);else if(s.r==="D")pIdx=(si===2?5:2);
+    const pIdx=partnerIdx(s,si);
     cur.partner=pIdx!=null?b.slots[pIdx]:null;cur.pIdx=pIdx;
     let hint=`<span class="cuebox">♪ Sing where the tune goes: “${esc(CUES[b.type][si]||'')}”</span>Pick ${KINDWORD[s.k]||'a line'}.`;
     if(s.p==="hook"||s.p==="mid"){const tw=s.p==="hook"?"chant":"cheer";
@@ -532,10 +700,60 @@ function openChooser(bi,si){
         ?`<span class="rhyme">Should rhyme with line ${pIdx+1}: <em>${esc(cur.partner)}</em></span>`
         :`<span class="rhyme">Lines ${Math.min(si,pIdx)+1} &amp; ${Math.max(si,pIdx)+1} rhyme — fill the other one too.</span>`;}
     document.getElementById('chHint').innerHTML=hint;
+    // prime the textarea with whatever is currently in the slot
+    const ta=document.getElementById('customLine');
+    ta.value=b.slots[si]||'';
+    document.getElementById('customError').style.display='none';
+    updateSylFeedback();
     const tg=document.getElementById('chToggle');
     if(cur.partner){tg.style.display='flex';setMode(false);}else{tg.style.display='none';}
     renderOpts();
     document.getElementById('chooser').classList.add('open');
+}
+/* The syllable counter is a heuristic — it tends to overcount words like
+   "excitement" and "everywhere" by 1–2. So we treat ±2 as fine, and only
+   flag a hard error at ±3 or more. */
+const SYL_OK_TOLERANCE=2;
+function updateSylFeedback(){
+    if(cur.bi==null)return;
+    const b=state.blocks[cur.bi],s=defOf(b)[cur.si];
+    const target=s.t||0,text=document.getElementById('customLine').value;
+    const info=document.getElementById('sylInfo'),badge=document.getElementById('sylBadge');
+    if(!text.trim()){
+        info.textContent=`Target: about ${target} syllables`;badge.textContent='';badge.className='syl-badge';
+        document.getElementById('customError').style.display='none';return;
+    }
+    const actual=countSyllables(text),diff=actual-target,abs=Math.abs(diff);
+    info.textContent=`Target: ~${target} · You have: ~${actual}`;
+    if(diff===0){badge.textContent='✓ Perfect';badge.className='syl-badge ok';}
+    else if(abs<=SYL_OK_TOLERANCE){badge.textContent=(diff>0?'+':'')+diff+' close enough';badge.className='syl-badge warn';}
+    else{badge.textContent=diff>0?`${diff} too many`:`${-diff} too few`;badge.className='syl-badge err';}
+    if(pendingCustom!==text)document.getElementById('customError').style.display='none';
+}
+function saveCustom(force){
+    const text=document.getElementById('customLine').value.trim();
+    if(!text){toast('Type something first ✍️');return;}
+    const b=state.blocks[cur.bi],s=defOf(b)[cur.si];
+    const target=s.t||0,actual=countSyllables(text),diff=actual-target;
+    if(!force&&Math.abs(diff)>SYL_OK_TOLERANCE){
+        const msg=diff>0
+            ?`Way too many syllables for the tune — got ${actual}, expected about ${target}.`
+            :`Too few syllables for the tune — got ${actual}, expected about ${target}.`;
+        const errBox=document.getElementById('customError');
+        errBox.querySelector('.err-text').textContent=msg;
+        errBox.style.display='flex';
+        pendingCustom=text;
+        return;
+    }
+    state.blocks[cur.bi].slots[cur.si]=text;
+    save();render();closeChooser();
+    setTimeout(()=>{const c=counts();if(c.d<c.t)scrollNext(false);},240);
+}
+function clearCustom(){
+    document.getElementById('customLine').value='';
+    document.getElementById('customError').style.display='none';
+    updateSylFeedback();
+    document.getElementById('customLine').focus();
 }
 function setMode(r){rhymeOnly=r;
     document.querySelector('[data-act="mode-all"]').classList.toggle('on',!r);
@@ -557,7 +775,7 @@ function renderOpts(){
                 <span class="tick">${isCur?'✓':''}</span><span>${esc(txt)}</span>
                 ${rg?'<span class="rt">rhymes 💛</span>':''}</button>`;});
     });
-    if(!html)html=`<div class="empty-note">No rhyming ideas found.<br>Tap “All ideas” to see every option.</div>`;
+    if(!html)html=`<div class="empty-note">No ready ideas here yet.<br>Use “Write your own words” above ↑</div>`;
     const body=document.getElementById('chBody');body.innerHTML=html;body.scrollTop=0;
 }
 function closeChooser(){document.getElementById('chooser').classList.remove('open');}
@@ -622,6 +840,9 @@ document.addEventListener('click',e=>{
     else if(a==='close-chooser')closeChooser();
     else if(a==='pick')pick(window._opts[+el.dataset.idx]);
     else if(a==='blank')blank();
+    else if(a==='save-custom')saveCustom(false);
+    else if(a==='save-custom-anyway')saveCustom(true);
+    else if(a==='clear-custom')clearCustom();
     else if(a==='mode-all')setMode(false);
     else if(a==='mode-rhyme')setMode(true);
     else if(a==='pick-LOW')openLib('LOW');
@@ -629,6 +850,8 @@ document.addEventListener('click',e=>{
     else if(a==='pick-OUTRO')openLib('OUTRO');
     else if(a==='add-lib')addLib(+el.dataset.ix);
     else if(a==='close-lib')closeLib();
+    else if(a==='prefill'){state=buildDefaultSong();nextId=Math.max(0,...state.blocks.map(b=>b.id||0))+1;
+        wasComplete=false;save();render();window.scrollTo({top:0,behavior:'smooth'});}
     else if(a==='del'){const i=+el.dataset.bi;
         if(confirm(`Remove “${state.blocks[i].name}”?`)){state.blocks.splice(i,1);save();render();}}
     else if(a==='next'){if(!scrollNext(true))openBook();}
@@ -640,16 +863,19 @@ document.addEventListener('click',e=>{
     else if(a==='dismiss-guide'){document.getElementById('guide').style.display='none';
         try{localStorage.setItem(GKEY,'1');}catch(_){}}
     else if(a==='reset'){if(!state.blocks.length||confirm('Clear the whole song? This empties it on this device.')){
-        state={v:4,blocks:[]};nextId=1;wasComplete=false;save();render();window.scrollTo({top:0,behavior:'smooth'});}}
+        state={v:5,blocks:[]};nextId=1;wasComplete=false;save();render();window.scrollTo({top:0,behavior:'smooth'});}}
 });
 document.addEventListener('change',e=>{const el=e.target.closest('[data-act="rename"]');if(!el)return;
     state.blocks[+el.dataset.bi].name=el.value.trim()||'Section';save();render();});
+document.addEventListener('input',e=>{if(e.target&&e.target.id==='customLine')updateSylFeedback();});
 document.querySelectorAll('.backdrop').forEach(b=>b.addEventListener('click',e=>{
     if(e.target===b)b.classList.remove('open');}));
 
 /* ===== INIT ===== */
 state=load();
 nextId=Math.max(0,...state.blocks.map(b=>b.id||0))+1;
+// suppress the confetti-on-first-render if the loaded song is already complete
+{const c=counts();wasComplete=(c.t>0&&c.d===c.t);}
 try{if(localStorage.getItem(GKEY)==='1')document.getElementById('guide').style.display='none';}catch(_){}
 render();
 </script>
