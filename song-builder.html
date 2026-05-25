@@ -98,17 +98,25 @@
     .cue{font-size:.72rem;font-weight:800;letter-spacing:.4px;color:#B6A98C;text-transform:uppercase;
         display:flex;align-items:center;gap:6px;}
     .cue::before{content:"♪";color:var(--sun-deep);font-size:.85rem;}
-    .line-main{display:flex;align-items:center;gap:12px;}
+    .line-main{display:flex;align-items:flex-start;gap:12px;}
     .line-num{flex:none;width:30px;height:30px;border-radius:9px;background:#FBEBD0;color:var(--sun-deep);
-        display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;}
+        display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;margin-top:2px;}
     .line.fixed{cursor:default;}
     .line.fixed:hover{background:none;}
     .line.fixed .line-num{background:#ECE6F4;color:#9A8FB6;}
-    .line-text{flex:1;font-size:1.08rem;font-weight:700;min-width:0;word-break:break-word;}
+    .line-text-col{flex:1;display:flex;flex-direction:column;gap:5px;min-width:0;}
+    .line-text{font-size:1.08rem;font-weight:700;word-break:break-word;line-height:1.35;}
     .line.empty .line-text{color:#BBA98A;font-style:italic;}
     .line-cta{flex:none;font-weight:800;font-size:.74rem;color:var(--coral);background:#FFEFE6;
-        padding:6px 10px;border-radius:999px;white-space:nowrap;}
+        padding:6px 10px;border-radius:999px;white-space:nowrap;align-self:center;}
     .line.filled .line-cta{color:var(--ink-soft);background:#F2EEE4;}
+    .line-meta{display:flex;flex-wrap:wrap;gap:5px;}
+    .meta-badge{font-size:.7rem;font-weight:800;padding:3px 8px;border-radius:999px;
+        letter-spacing:.2px;display:inline-flex;align-items:center;gap:4px;line-height:1.2;}
+    .meta-badge.ok{background:var(--grass-soft);color:var(--grass);}
+    .meta-badge.warn{background:#FFEFD9;color:var(--sun-deep);}
+    .meta-badge.err{background:#FCDFD9;color:var(--coral-deep);}
+    .meta-badge .ic{font-size:.78rem;}
 
     .add-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
     .add-btn{flex:1;min-width:120px;border:2px dashed #E3D4B6;background:rgba(255,255,255,.6);
@@ -243,14 +251,52 @@
         :root{font-size:19px;}
         .backdrop{align-items:center;}
         .sheet,.book{border-radius:26px;}
-        .line{grid-template-columns:38% 1fr;align-items:center;gap:14px;}
+        .line{grid-template-columns:38% 1fr;align-items:start;gap:6px 14px;}
+        .line .cue{align-self:center;}
+    }
+    @media (max-width:480px){
+        header{padding:20px 18px 22px;}
+        h1{font-size:1.62rem;}
+        .tagline{font-size:.9rem;}
+        .progress-wrap{padding:10px 14px;margin-top:14px;gap:10px;}
+        .ring,.ring svg{width:54px;height:54px;}
+        .guide{padding:16px 14px 12px;}
+        .guide h2{font-size:1.05rem;}
+        .step p{font-size:.9rem;}
+        .add-btn{padding:13px 10px;font-size:.92rem;min-width:46%;}
+        .block-head{padding:12px 12px 10px;gap:8px;}
+        .block-name{font-size:1rem;}
+        .block-kind{font-size:.58rem;padding:4px 7px;}
+        .line{padding:12px 13px;gap:4px;}
+        .line-text{font-size:1rem;}
+        .line-num{width:28px;height:28px;font-size:.8rem;}
+        .meta-badge{font-size:.65rem;padding:2px 7px;}
+        .dock{padding:10px 12px calc(10px + env(safe-area-inset-bottom));gap:8px;}
+        .dock button{padding:14px 14px;font-size:.95rem;border-radius:14px;}
+        .dock .secondary{padding:14px 12px;font-size:.85rem;}
+        .sheet,.book{max-height:96vh;border-radius:22px 22px 0 0;}
+        .sheet-head{padding:14px 16px 4px;}
+        .sheet-head h2{font-size:1.1rem;}
+        .sheet-hint{padding:10px 12px;margin:0 16px 4px;font-size:.88rem;}
+        .write-own{margin:6px 16px 2px;padding:10px 12px;}
+        .write-own textarea{min-height:42px;font-size:1rem;}
+        .or-divider{margin:10px 16px 4px;}
+        .toggle{margin:6px 16px 0;}
+        .sheet-body{padding:6px 16px 4px;}
+        .opt{padding:12px 12px;font-size:.98rem;min-height:50px;}
+        .sheet-foot{padding:10px 16px calc(14px + env(safe-area-inset-bottom));}
+        .bk-row{grid-template-columns:1fr;gap:2px;}
+        .bk-cue{font-size:.7rem;}
     }
     @media (max-width:380px){
         :root{font-size:17px;}
         .wrap{padding:0 10px;}
         .line-cta{display:none;}
-        .line{padding:12px 13px;}
-        h1{font-size:1.6rem;}
+        .line{padding:11px 11px;}
+        h1{font-size:1.55rem;}
+        .add-btn{font-size:.88rem;padding:12px 8px;min-width:0;}
+        .dock button{padding:13px 10px;font-size:.9rem;}
+        .meta-badge{font-size:.62rem;padding:2px 6px;}
     }
     @media print{
         body{background:#fff;padding:0;}
@@ -585,6 +631,38 @@ function counts(){let t=0,d=0;state.blocks.forEach(b=>defOf(b).forEach((s,i)=>{
     if(s.fixed)return;t++;if(b.slots[i])d++;}));return{t,d};}
 const kindLabel=t=>t==='LOW'?'Verse':t==='DROP'?'Drop':'Outro';
 
+/* ===== RHYMING READER ===== */
+/* Build the inline meta badges shown UNDER each filled line in the song
+   view: a syllable check and (if the slot has a rhyme partner) a rhyme
+   check. Hidden for fixed or empty lines. */
+function lineBadges(b,def,i){
+    const s=def[i],val=b.slots[i];
+    if(!val||s.fixed)return'';
+    let html='';
+    const tgt=s.t||0;
+    if(tgt){
+        const actual=countSyllables(val),diff=actual-tgt,abs=Math.abs(diff);
+        const cls=abs===0?'ok':(abs<=SYL_OK_TOLERANCE?'warn':'err');
+        const icon=abs===0?'✓':(abs<=SYL_OK_TOLERANCE?'⚠':'✗');
+        const label=abs===0?`${actual} syl`:`${actual}/${tgt} syl`;
+        html+=`<span class="meta-badge ${cls}"><span class="ic">${icon}</span>${label}</span>`;
+    }
+    if(s.r){
+        for(let j=0;j<def.length;j++){
+            if(j===i||def[j].r!==s.r)continue;
+            const partner=b.slots[j];
+            if(partner){
+                const ok=rhymes(val,partner),cls=ok?'ok':'err';
+                const icon=ok?'💛':'✗';
+                const label=ok?`rhymes w/ L${j+1}`:`won’t rhyme w/ L${j+1}`;
+                html+=`<span class="meta-badge ${cls}"><span class="ic">${icon}</span>${label}</span>`;
+            }
+            break;
+        }
+    }
+    return html?`<span class="line-meta">${html}</span>`:'';
+}
+
 /* ===== RENDER ===== */
 function render(){
     const box=document.getElementById('song');
@@ -614,9 +692,10 @@ function render(){
                 const txt=s.fixed?FIXED:(val||'Tap to pick a line…');
                 const tag=s.fixed?'div':'button';
                 const click=s.fixed?'':`data-act="choose" data-bi="${bi}" data-si="${i}"`;
+                const badges=lineBadges(b,def,i);
                 rows+=`<${tag} class="${cls}" ${click}><span class="cue">${esc(cue)}</span>
                     <span class="line-main"><span class="line-num">${numTxt}</span>
-                    <span class="line-text">${esc(txt)}</span>
+                    <span class="line-text-col"><span class="line-text">${esc(txt)}</span>${badges}</span>
                     <span class="line-cta">${cta}</span></span></${tag}>`;
             });
             card.innerHTML=`<div class="block-head">
